@@ -3,36 +3,32 @@
 const express=require('express')
 
 const cors=require('cors')
-
-
+const mongoose=require('mongoose')
+const postRouter=require('./routes/post')
 const app=express();
+const fileUpload=require('express-fileupload')
 
-const PORT=3000
+const PORT=4000
 app.use(express());
 app.use(cors())
+ 
+ 
+app.use('/posts',postRouter);
+ 
+ 
 
-const Post=[
+ 
 
-    {
-        name:'Asim',
-        role:'software developer'
-    },
-    {
-        name:'joe',
-        role:'react-js'
-    }
-]
-
-
-app.get('/',(req,res)=>{
-    res.json("successfully created")
-})
-
-app.post('/posts',(req,res)=>{
-  res.send({ data: Post, message: "Freshers data" });
-  res.json("successfully created")
-})
+ 
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
   });
+  mongodb://127.0.0.1:27017/react-jwt
+
+mongoose.connect('mongodb://127.0.0.1:27017/Mern-SocialApp')
+  .then(() => console.log('Connected!'));
+
+  
+      
+  module.exports=app
