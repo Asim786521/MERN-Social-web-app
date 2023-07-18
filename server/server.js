@@ -11,7 +11,7 @@ const fileUpload=require('express-fileupload')
 const PORT=4000
 app.use(express());
 app.use(cors())
- 
+ app.use(express.static('public'))
  
 app.use('/posts',postRouter);
  

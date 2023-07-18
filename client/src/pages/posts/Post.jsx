@@ -4,12 +4,13 @@ import "./Post.css";
 import { Users } from "../../dummyData";
  import { useState,useEffect } from 'react';
  import axios from 'axios'
+ import { Navigate, useNavigate } from 'react-router-dom';
 const Post = () => {
-  
+  const navigate=useNavigate()
 
-    const[profileImage,SetProfileImage]=useState([{}])
+    const[profileImage,SetProfileImage]=useState([])
 
-
+ 
        const[file,setFiles]=useState(null)
        const [title,setTitle]=useState('') 
        
@@ -17,41 +18,23 @@ const Post = () => {
     useEffect(()=>{
 
       axios.get('http://localhost:4000/posts/get-postData').then((response)=>{
-   console.log(" post data received",response.data.data.file);
-   
-
-      })
-        if(Users!==null){
-   SetProfileImage(Users)
-    console.log( "data is",profileImage)
-
-    profileImage.map((obj,index)=>(
-      console.log("profilename",obj)
-    ))
-        }
-  //   const URL='http://localhost:3000/posts'
-
-  //  try{
-  //       axios.post(URL).then((response)=>{
-  //         console.log("data fetched ",response.data)
-  //       });
-  //     } 
-  //       catch(error)  {
-  //         if( error.response ){
-  //             console.log(error.response.data); // => the response payload 
-  //         }
-  //       };
+ 
+ 
+SetProfileImage(response.data)
+ 
+      }).catch((err)=>console.log(err))
+         
+  
     },[])
       
     
     const handleFileInput = (e) => {
       // handle validations
-      console.log(e.target.value);
-      console.log("event",e.target.files[0]);
+  
+ 
       setFiles(e.target.files[0]) 
   }
-  const handleChange = (event) => {
- console.log('event name',event.target.value)
+  const handleChange = (event) => { 
  setTitle(event.target.value)
      
   };
@@ -60,8 +43,7 @@ const Post = () => {
   const handleSubmit=(e)=>{
       e.preventDefault();
  
-      console.log("file is",file);
-      console.log("name is",title);
+ 
 
       const fd=new FormData()
       fd.append('file',file,)
@@ -80,32 +62,35 @@ const Post = () => {
 console.log(err);
       }
   }
- 
+   navigate('/posts')
   return (
    <div>
     <Navbar/>  
-   
-    <div class="box">
- <a class="button" href="#popup1">   <label class="upload-area">
+
+  
+
+     
+    <div className="box">
+ <a className="button" href="#popup1">   <label class="upload-area">
      
     
      
-     <span class="upload-button">
-       <i class="fas fa-arrow-up"></i>
+     <span className="upload-button">
+       <i className="fas fa-arrow-up"></i>
      </span>
    </label></a>
 </div>
 
-<div id="popup1" class="overlay">
-	<div class="popup">
+<div id="popup1" className="overlay">
+	<div className="popup">
 		 
 	 
-		<div class="content">
+		<div className="content">
     <h4>post title</h4>
 		 <input type='text' name='title' value={title}  onChange={handleChange}/>
      <label>select</label>
      <input type="file" name="file" onChange={handleFileInput} />
-     {file? (<button type="submit" onClick={handleSubmit}><i class="fa fa-paper-plane" aria-hidden="true"></i></button>):("")}
+     {file? (<button type="submit" onClick={handleSubmit}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>):("")}
 		</div>
 	</div>
 </div>
@@ -125,7 +110,8 @@ console.log(err);
  
 </div> */}
  
-    {profileImage.map((obj,index)=>(
+    {profileImage && 
+    profileImage.map((obj,index)=>(
 
 
     <div className="post">
@@ -135,14 +121,14 @@ console.log(err);
         {/* {profileImage.map((obj ,index)=>  */}
         <img
               className="postProfileImg"
-              src= {obj.profilePicture}
+              // src= {obj.profilePicture}
               alt=""
             />
           {/* //)} */}
            
 
             <span className="postUsername"> 
-             {obj.username}
+             {obj.name} 
             </span>
             <span className="postDate"> </span>
           </div>
@@ -152,8 +138,9 @@ console.log(err);
         </div>
         <div className="postCenter">
           <span className="postText"> </span>
-          <img className="postImg" src="assets/psd4.jpg" alt="" />
-        </div>
+          <img className="postImg" src={`http://localhost:4000/Images/${obj.image}`} alt="" />
+          <p style={{fontSize:'55px'}}>{obj.name}</p>
+        </div>   
         <div className="postBottom">
           <div className="postBottomLeft">
             <img className="likeIcon" src="assets/like.png"   alt="" />
@@ -166,7 +153,7 @@ console.log(err);
         </div>
       </div>
     </div>
-    ))}
+    ))} 
      
    
       </div>
