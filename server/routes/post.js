@@ -2,10 +2,12 @@ const { log } = require('console')
 const express=require('express')
 const path=require('path')
  const postModel=require('../models/posts.js')
+ console.log(postModel)
 const multer = require('multer')
 const { title } = require('process')
 const { loadavg } = require('os')
 const { response } = require('../server.js')
+ 
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -24,7 +26,8 @@ const route=express.Router()
  })
 route.post('/add-post',upload.single('file'), async(req,res)=>{ 
     console.log("title name is",req.body.title)
-     const saveFile= await postModel.create({name:req.body.title,image:req.file.filename})
+     const saveFile= await postModel.postData.create({name:req.body.title,image:req.file.filename})
+      
   console.log(saveFile);
 
     
@@ -50,9 +53,21 @@ route.post('/add-post',upload.single('file'), async(req,res)=>{
 }),
 
 route.get("/get-postData", (req,res)=>{
-    postModel.find().then(user=>res.json(user))
+    postModel.postData.find().then(user=>res.json(user))
    //console.log('getPosts',getPosts.file[1])
    
+})
+
+
+route.put('/saved-post',async(req,res)=>{
+   
+const savePostobject=req.body.savedPostdata
+  await postModel.savedPost.create(savePostobject)
+ 
+})
+
+route.get('/posts-saved',(req,res)=>{
+   postModel.savedPost.find().then(saved=>res.json(saved)).catch((err)=>console.log(err))
 })
 
 module.exports = route ;

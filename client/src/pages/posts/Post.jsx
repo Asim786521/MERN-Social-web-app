@@ -1,14 +1,15 @@
 import React   from 'react'
 import Navbar from '../../components/Navbar'
 import "./Post.css";
-import { Users } from "../../dummyData";
+ 
  import { useState,useEffect } from 'react';
  import axios from 'axios'
- import { Navigate, useNavigate } from 'react-router-dom';
+ import {   useNavigate } from 'react-router-dom';
 const Post = () => {
   const navigate=useNavigate()
 
     const[profileImage,SetProfileImage]=useState([])
+    const[saved,postSaved]=useState({})
 
  
        const[file,setFiles]=useState(null)
@@ -57,12 +58,30 @@ SetProfileImage(response.data)
   } }
      
        ).then(res=>console.log(res.data))
-     
+        navigate('/posts')
       }catch(err){
 console.log(err);
       }
   }
-   navigate('/posts')
+  const savedPost=async(data)=>{
+   
+      postSaved(data)
+   const savedPostdata={
+        userId:data._id,
+         title:data.name,
+         Image:data.image
+    }
+
+    try{
+      const response= await axios.put('http://localhost:4000/posts/saved-post',{savedPostdata})
+      console.log("post saved",response.data);
+
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
   return (
    <div>
     <Navbar/>  
@@ -114,7 +133,7 @@ console.log(err);
     profileImage.map((obj,index)=>(
 
 
-    <div className="post">
+    <div className="post" key={obj._id}>
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
@@ -148,15 +167,25 @@ console.log(err);
             <span className="postLikeCounter">  people like it</span>
           </div>
           <div className="postBottomRight">
-            <span className="postCommentText">  comments</span>
-          </div>
+            <span className="postCommentText">  comments</span>    
         </div>
       </div>
+  
     </div>
-    ))} 
-     
-   
+    <div className="postSave">
+    {saved? (<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
+      <span className="float-right"> <i class="fas fa-save"></i></span></button>):<h1 style={{fontWeight:'bold'}}>saved</h1>}
       </div>
+  
+          </div>
+    ))} 
+ 
+    
+   
+ 
+ </div>
+   
+ 
 
    
    

@@ -11,13 +11,15 @@ const Navbar = ( ) => {
     }
         return (
             <>
+
+            
                 <div className="container-fluid mt-3">
                     
-                        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-md">
+                     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-md">
                             <div className="container-fluid p-2">
                             <img  className="logo" src= '/VIBGYOR.png' alt='/VIBGYOR.png'/>
-                               
-                                <div className="form-inline ml-auto">
+                            
+                                <div className="form-inline ml-auto"><p><a style={{marginRight:'12rem',color:'rgb(170, 51, 106)',fontWeight:'bold'}} href='/saved'>Saved</a></p>
                                     <div className="btn btn-primary" onClick={ToggleSidebar} >
                                         <i className="fa fa-bars"></i>
                                     </div>
@@ -35,7 +37,8 @@ const Navbar = ( ) => {
         
      
             
-                                <li><a className="sd-link" href='/posts'>posts</a></li>
+                                <li><a className="sd-link" href='/posts'>posts</a>
+                                </li>
                                     <li><a className="sd-link" href='/chats'>chat</a></li>
                                      
                             

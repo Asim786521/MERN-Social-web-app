@@ -6,12 +6,14 @@ const cors=require('cors')
 const mongoose=require('mongoose')
 const postRouter=require('./routes/post')
 const app=express();
-const fileUpload=require('express-fileupload')
+ 
+const bodyparser=require('body-parser')
 
 const PORT=4000
 app.use(express());
 app.use(cors())
  app.use(express.static('public'))
+ app.use(bodyparser.json())
  
 app.use('/posts',postRouter);
  

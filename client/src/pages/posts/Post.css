@@ -78,7 +78,10 @@
       font-size: 15px;
   }
   
+  .postSave{
     
+      margin-left:73rem
+  }
 
  
 
@@ -188,3 +191,4 @@
     width: 70%;
   }
 }
+ 
