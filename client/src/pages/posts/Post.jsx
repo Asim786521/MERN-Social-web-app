@@ -70,17 +70,17 @@ console.log(err);
          title:data.name,
          Image:data.image
     }
-
+ 
     try{
       const response= await axios.put('http://localhost:4000/posts/saved-post',{savedPostdata})
       console.log("post saved",response.data);
        
       //postSaved(response.data.message) 
 
-      if(response.data._id){ 
+      if(response.data.Image){ 
         //alert(response.data.message)
-        postSaved(response.data._id)
-        return saved
+        postSaved(response.data.Image)
+         
       }
  
     } catch (err) {
@@ -183,7 +183,7 @@ console.log(err);
   
     </div>
     <div className="postSave">
-    {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
+    {saved && saved===obj.image? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
       <span className="float-right"> <i class="fas fa-save"></i></span></button>}
       </div>
       {/* <div className="postSave">
