@@ -72,6 +72,7 @@ if(savedataCheck){
     return res.json({status:"error",message:"post already saved" ,_id:savedataCheck.postId})
 }else{
     await postModel.savedPost.create({postId:new ObjectId(savePostobject.userId),title:savePostobject.title,Image:savePostobject.Image})
+    return res.json({status:"success",response:"post saved"})
 }
  
  

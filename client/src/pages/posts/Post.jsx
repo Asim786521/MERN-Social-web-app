@@ -64,12 +64,13 @@ console.log(err);
       }
   }
   const savedPost=async(data)=>{
-   
+ 
    const savedPostdata={
         userId:data._id,
          title:data.name,
          Image:data.image
     }
+   
  
     try{
       const response= await axios.put('http://localhost:4000/posts/saved-post',{savedPostdata})
@@ -82,13 +83,13 @@ console.log(err);
         postSaved(response.data._id)
          
       }else{
-             alert('post saved')
-      }
- 
+        alert(response.data.response)
+      } 
  
     } catch (err) {
       console.log(err);
     }
+
   };
   
   return (
