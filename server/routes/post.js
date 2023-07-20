@@ -7,8 +7,10 @@ const multer = require('multer')
 const { title } = require('process')
 const { loadavg } = require('os')
 const { response } = require('../server.js')
- 
-
+  
+ObjectID = require('mongodb').ObjectID
+var objectId = new ObjectID()
+  
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/Images')
@@ -63,8 +65,8 @@ route.get("/get-postData", (req,res)=>{
 route.put('/saved-post',async(req,res)=>{
   
 const savePostobject=req.body.savedPostdata 
-const savedataCheck=await postModel.savedPost.findOne({title:savePostobject.title,Image:savePostobject.Image})
-// console.log("saved data check is",savedataCheck);
+const savedataCheck=await postModel.savedPost.findOne({ _id:objectId(savePostobject.userId) ,title:savePostobject.title,Image:savePostobject.Image})
+console.log("saved data check is",savedataCheck);
 if(savedataCheck){
     return res.json({status:"error",message:"post already saved" ,_id:savedataCheck._id})
 }else{
