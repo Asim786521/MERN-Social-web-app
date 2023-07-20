@@ -5,11 +5,11 @@ import "./Post.css";
  import { useState,useEffect } from 'react';
  import axios from 'axios'
  import {   useNavigate } from 'react-router-dom';
-const Post = () => {
+const Post = ({ label, toggled, onClick }) => {
   const navigate=useNavigate()
-
+  
     const[profileImage,SetProfileImage]=useState([])
-    const[saved,postSaved]=useState({})
+    const[saved,postSaved]=useState('')
 
  
        const[file,setFiles]=useState(null)
@@ -65,7 +65,6 @@ console.log(err);
   }
   const savedPost=async(data)=>{
    
-      postSaved(data)
    const savedPostdata={
         userId:data._id,
          title:data.name,
@@ -75,8 +74,15 @@ console.log(err);
     try{
       const response= await axios.put('http://localhost:4000/posts/saved-post',{savedPostdata})
       console.log("post saved",response.data);
+       
+      //postSaved(response.data.message) 
 
-
+      if(response.data._id){ 
+        //alert(response.data.message)
+        postSaved(response.data._id)
+        return saved
+      }
+ 
     } catch (err) {
       console.log(err);
     }
@@ -87,9 +93,12 @@ console.log(err);
     <Navbar/>  
 
   
-
+    
      
     <div className="box">
+
+
+    
  <a className="button" href="#popup1">   <label class="upload-area">
      
     
@@ -101,6 +110,7 @@ console.log(err);
 </div>
 
 <div id="popup1" className="overlay">
+ 
 	<div className="popup">
 		 
 	 
@@ -173,9 +183,13 @@ console.log(err);
   
     </div>
     <div className="postSave">
-    {saved? (<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
-      <span className="float-right"> <i class="fas fa-save"></i></span></button>):<h1 style={{fontWeight:'bold'}}>saved</h1>}
+    {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
+      <span className="float-right"> <i class="fas fa-save"></i></span></button>}
       </div>
+      {/* <div className="postSave">
+    {saved &&  obj._id!==saved?(<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>     <span className="float-right"> <i class="fas fa-save"></i></span></button>):<p className='text-primary'>already saved</p>}
+ 
+      </div> */}
   
           </div>
     ))} 

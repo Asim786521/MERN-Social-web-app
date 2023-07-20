@@ -5,7 +5,9 @@ import Chat from './pages/chats/Chat';
 import Post from   './pages/posts/Post';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
  import SavedPosts from './pages/posts/SavedPosts';
+ 
 function App() {
+  
   return (
     <div className="App">
  

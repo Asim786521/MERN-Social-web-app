@@ -2,7 +2,7 @@ const { log } = require('console')
 const express=require('express')
 const path=require('path')
  const postModel=require('../models/posts.js')
- console.log(postModel)
+  
 const multer = require('multer')
 const { title } = require('process')
 const { loadavg } = require('os')
@@ -26,6 +26,7 @@ const route=express.Router()
  })
 route.post('/add-post',upload.single('file'), async(req,res)=>{ 
     console.log("title name is",req.body.title)
+    
      const saveFile= await postModel.postData.create({name:req.body.title,image:req.file.filename})
       
   console.log(saveFile);
@@ -60,9 +61,16 @@ route.get("/get-postData", (req,res)=>{
 
 
 route.put('/saved-post',async(req,res)=>{
-   
-const savePostobject=req.body.savedPostdata
-  await postModel.savedPost.create(savePostobject)
+  
+const savePostobject=req.body.savedPostdata 
+const savedataCheck=await postModel.savedPost.findOne({title:savePostobject.title,Image:savePostobject.Image})
+// console.log("saved data check is",savedataCheck);
+if(savedataCheck){
+    return res.json({status:"error",message:"post already saved" ,_id:savedataCheck._id})
+}else{
+    await postModel.savedPost.create(savePostobject)
+}
+ 
  
 })
 
