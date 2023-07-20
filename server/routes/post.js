@@ -63,15 +63,15 @@ route.get("/get-postData", (req,res)=>{
 
 route.put('/saved-post',async(req,res)=>{
   
-const savePostobject=req.body.savedPostdata 
-const savedataCheck=await postModel.savedPost.findOne({title:savePostobject.title,Image:savePostobject.Image})
+const savePostobject=req.body.savedPostdata
+  
+const savedataCheck=await postModel.savedPost.findOne({postId:new ObjectId(savePostobject.userId),title:savePostobject.title,Image:savePostobject.Image})
  
-let postId=await postModel.savedPost.findOne({ _id:new ObjectId(savePostobject.userId)})
  
 if(savedataCheck){
-    return res.json({status:"error",message:"post already saved" ,Image:savedataCheck.Image})
+    return res.json({status:"error",message:"post already saved" ,_id:savedataCheck.postId})
 }else{
-    await postModel.savedPost.create(savePostobject)
+    await postModel.savedPost.create({postId:new ObjectId(savePostobject.userId),title:savePostobject.title,Image:savePostobject.Image})
 }
  
  

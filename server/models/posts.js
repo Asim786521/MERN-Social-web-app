@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongoose=require('mongoose')
 
  
@@ -9,7 +10,7 @@ const postSchema=mongoose.Schema( {
 })
 
 const savedpostSchema=mongoose.Schema({ 
-  userid:Object,
+  postId:ObjectId,
   title:String,
   Image:String,
  
