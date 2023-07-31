@@ -12,11 +12,12 @@ const Post = () => {
   
     const[profileImage,SetProfileImage]=useState([])
     const[saved,postSaved]=useState('')
-
+    const [toggle, setToggle] = useState(true)
+    const userId=localStorage.getItem("user_Id")
  
        const[file,setFiles]=useState(null)
        const [title,setTitle]=useState('') 
-       const [id,setId]=useState() 
+       //const [id,setId]=useState() 
        
     //
     useEffect(()=>{
@@ -25,7 +26,7 @@ const Post = () => {
  
  
 SetProfileImage(response.data)
- 
+
  
       }).catch((err)=>console.log(err))
          
@@ -52,7 +53,7 @@ SetProfileImage(response.data)
   const handleSubmit=(e)=>{
       e.preventDefault();
  
- const userId=localStorage.getItem("user_Id")
+ 
 
       const fd=new FormData()
       fd.append('file',file,)
@@ -85,7 +86,7 @@ console.log(err);
       const response= await axios.put('http://localhost:4000/posts/saved-post',{savedPostdata})
       console.log("post saved",response.data);
      
-      //postSaved(response.data.message) 
+  
 
       if(response.data._id){ 
         
@@ -170,7 +171,7 @@ console.log(err);
            
 
             <span className="postUsername"> 
-             {obj.userName} 
+             {userId && userId===obj.userId?(<p>You</p>):obj.userName} 
             </span>
             <span className="postDate"> </span>
           </div>
@@ -184,10 +185,12 @@ console.log(err);
           <p style={{fontSize:'55px'}}>{obj.name}</p>
         </div>   
         <div className="postBottom">
+           
           <div className="postBottomLeft">
-            <img className="likeIcon" src="assets/like.png"   alt="" />
-            <img className="likeIcon" src="assets/heart.png"   alt="" />
-            <span className="postLikeCounter">  people like it</span>
+            {/* <img className="likeIcon" src={<i class="fa-solid fa-thumbs-up"></i>}   alt="" /> */}
+            
+
+            <span className="postLikeCounter"> </span>
           </div>
           <div className="postBottomRight">
             <span className="postCommentText">  comments</span>    
@@ -195,7 +198,11 @@ console.log(err);
       </div>
   
     </div>
+    
+    {toggle && toggle?( <i class="like-icon"  onClick={() => setToggle(!toggle)}     ></i> ):  <i onClick={() => setToggle(toggle)} class="like-icon"    style={{ color:'#e23b3b',content:'\f004' }}  ></i> }
+ 
     <div className="postSave">
+    
     {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
       <span className="float-right"> <i class="fas fa-save"></i></span></button>}
       </div>

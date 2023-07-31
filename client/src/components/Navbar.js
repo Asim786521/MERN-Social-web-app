@@ -48,7 +48,7 @@ const Navbar = ( ) => {
                                      
                                     
                                 </ul>
-                            <button   onClick={handleLogout}>logout</button>
+                            <button   onClick={handleLogout}><i class="fa-solid fa-right-from-bracket"></i></button>
                             </div>
                         </div>
                         <div className={`sidebar-overlay ${isOpen === true ? 'active' : ''}`} onClick={ToggleSidebar}></div>
