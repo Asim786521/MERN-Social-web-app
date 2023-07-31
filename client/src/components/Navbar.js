@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css'
  
 const Navbar = ( ) => {
@@ -24,7 +25,9 @@ const Navbar = ( ) => {
                             <div className="container-fluid p-2">
                             <img  className="logo" src= '/VIBGYOR.png' alt='/VIBGYOR.png'/>
                             
-                                <div className="form-inline ml-auto"><p><a style={{marginRight:'12rem',color:'rgb(170, 51, 106)',fontWeight:'bold'}} href='/saved'>Saved</a></p>
+                                <div className="form-inline ml-auto"> 
+                                <p> <a  href='/liked' className='liked'><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></p>
+                                   <p> <a  href='/saved' className='saved' >Saved</a></p>
                                     <div className="btn btn-primary" onClick={ToggleSidebar} >
                                         <i className="fa fa-bars"></i>
                                     </div>

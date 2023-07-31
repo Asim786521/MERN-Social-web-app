@@ -85,3 +85,15 @@ body {
     cursor: pointer;
     text-decoration: none;
 }
+.saved{
+    margin-right:12rem;
+    color:#990e17;
+    font-weight:bold;
+    
+}
+.liked{
+     margin-right:8rem;
+     color:#3476e0;
+     font-weight:bold;
+     font-size:28px;
+}
