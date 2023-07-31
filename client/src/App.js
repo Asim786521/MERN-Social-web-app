@@ -23,10 +23,14 @@ function App() {
       <Route path="/" element={<Navigate replace to="/login" />} />
       <Route path="/login" exact element={ <Login/>} />
       <Route path="/register" exact element={ <Register/>} />
-	 
-      <Route path="/posts" exact element={<Post/>} />
-      <Route path="/saved" exact element={<SavedPosts/>} />
-      <Route path="/chats" exact element={<Chat/>} />
+      {/* {
+    loggedIn ? (
+      <Start />
+    ) : (
+      <Navigate replace to={"/"} */}
+      <Route path="/posts" exact element={user?(<Post/>):<Navigate replace to="/login"/>} />
+      <Route path="/saved" exact element={user?(<SavedPosts/>):<Navigate replace to="/login"/>} />
+      <Route path="/chats" exact element={user?(<Chat/>):<Navigate replace to="/login"/>} />
       </Routes>
 </BrowserRouter>
     </div>

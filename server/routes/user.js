@@ -4,7 +4,7 @@ const { User, validate } = require("../models/user");
 const bcrypt = require("bcrypt");
 
 route.post("/", async (req, res) => {
-	console.log("register data getted",req.body);
+ 
 	try {
  
 

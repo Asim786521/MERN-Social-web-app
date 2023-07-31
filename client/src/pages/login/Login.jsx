@@ -6,8 +6,7 @@ const Login = () => {
 
   const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
-	const [Id,setId]=useState({}) 
-
+	 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
     
@@ -21,8 +20,7 @@ const Login = () => {
 		
 			const { data: res } = await axios.post(url, data);
     console.log(res.message);
-alert(res._id);
-setId(res._id)
+  
 localStorage.setItem("user_Id", res._id)
 localStorage.setItem("token", res.data);
 			window.location = "/";
