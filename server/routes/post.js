@@ -56,7 +56,7 @@ route.post('/add-post',upload.single('file'), async(req,res)=>{
 
 route.get("/get-postData", (req,res)=>{
     postModel.postData.find().then(user=>res.json(user))
-   //console.log('getPosts',getPosts.file[1])
+   // console.log('getPosts',getPosts.file[1])
    
 })
 

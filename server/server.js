@@ -1,10 +1,13 @@
 
-
+require("dotenv").config();
 const express=require('express')
 
 const cors=require('cors')
 const mongoose=require('mongoose')
+ 
 const postRouter=require('./routes/post')
+const authRoutes=require('./routes/auth')
+const userRoutes=require('./routes/user')
 const app=express();
  
 const bodyparser=require('body-parser')
@@ -16,7 +19,11 @@ app.use(cors())
  app.use(bodyparser.json())
  
 app.use('/posts',postRouter);
+app.use("/user", userRoutes);
  
+app.use("/auth", authRoutes);
+
+app.use(app.route);
  
 
  
