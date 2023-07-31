@@ -1,10 +1,12 @@
 import React ,{useState}from 'react'
 import "./Login.css"
 import axios from 'axios'
+import Post from '../posts/Post';
 const Login = () => {
 
   const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
+	const [Id,setId]=useState({}) 
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -19,7 +21,10 @@ const Login = () => {
 		
 			const { data: res } = await axios.post(url, data);
     console.log(res.message);
-    localStorage.setItem("token", res.data);
+alert(res._id);
+setId(res._id)
+localStorage.setItem("user_Id", res._id)
+localStorage.setItem("token", res.data);
 			window.location = "/";
 		} catch (error) {
 			if (
@@ -32,7 +37,10 @@ const Login = () => {
 		}
 	};
   return (
+ 
+
     <body className='body-login'>
+
     <div className="container">
     <div className="form-box">
       <div className="header-form">
@@ -65,6 +73,8 @@ const Login = () => {
 </div>
 {error && <div >{error}</div>}
 </form>
+
+
         <div className="social">
           <a href="/#"><i className="fab fa-facebook"></i></a>
           <a href="/#"><i className="fab fa-twitter-square"></i></a>
@@ -73,7 +83,9 @@ const Login = () => {
       </div>
     </div>
    </div> </body>  
+   
   )
+   
 }
 
 export default Login

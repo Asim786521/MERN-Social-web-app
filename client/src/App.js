@@ -3,13 +3,13 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Chat from './pages/chats/Chat';
 import Post from   './pages/posts/Post';
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route,Navigate} from "react-router-dom";
  import SavedPosts from './pages/posts/SavedPosts';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
  
 function App() {
-  
+  const user = localStorage.getItem("token");
   return (
     <div className="App">
  
@@ -19,8 +19,8 @@ function App() {
      
     
 	 
-      <Route path="/" exact element={ <Navbar />} />
-       
+      {user &&   <Route path="/"   exact element={ <Navbar />} />}
+      <Route path="/" element={<Navigate replace to="/login" />} />
       <Route path="/login" exact element={ <Login/>} />
       <Route path="/register" exact element={ <Register/>} />
 	 

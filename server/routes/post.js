@@ -2,7 +2,7 @@ const { log } = require('console')
 const express=require('express')
 const path=require('path')
  const postModel=require('../models/posts.js')
-  
+ const { User } = require("../models/user");
 const multer = require('multer')
 const { title } = require('process')
 const { loadavg } = require('os')
@@ -26,9 +26,13 @@ const route=express.Router()
     res.json('post home')
  })
 route.post('/add-post',upload.single('file'), async(req,res)=>{ 
-    console.log("title name is",req.body.title)
-    
-     const saveFile= await postModel.postData.create({name:req.body.title,image:req.file.filename})
+     
+    const finduser=await User.findOne({_id:req.body._id})
+    console.log("finduser"+finduser);
+   
+    var dates = new Date();
+    const uploadedTime=dates.toDateString();
+     const saveFile= await postModel.postData.create({createdAt:uploadedTime,userId:finduser._id,userName:finduser.username,name:req.body.title,image:req.file.filename})
       
   console.log(saveFile);
 
@@ -55,10 +59,12 @@ route.post('/add-post',upload.single('file'), async(req,res)=>{
 }),
 
 route.get("/get-postData", (req,res)=>{
-    postModel.postData.find().then(user=>res.json(user))
+    postModel.postData.find().then(user=>res.json(user));
+   
    // console.log('getPosts',getPosts.file[1])
    
 })
+ 
 
 
 route.put('/saved-post',async(req,res)=>{

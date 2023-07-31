@@ -5,7 +5,9 @@ import "./Post.css";
  import { useState,useEffect } from 'react';
  import axios from 'axios'
  import {   useNavigate } from 'react-router-dom';
-const Post = ({ label, toggled, onClick }) => {
+const Post = () => {
+
+   
   const navigate=useNavigate()
   
     const[profileImage,SetProfileImage]=useState([])
@@ -14,6 +16,7 @@ const Post = ({ label, toggled, onClick }) => {
  
        const[file,setFiles]=useState(null)
        const [title,setTitle]=useState('') 
+       const [id,setId]=useState() 
        
     //
     useEffect(()=>{
@@ -23,10 +26,15 @@ const Post = ({ label, toggled, onClick }) => {
  
 SetProfileImage(response.data)
  
+ 
       }).catch((err)=>console.log(err))
          
-  
-    },[])
+   
+             
+      
+        },
+    
+    [])
       
     
     const handleFileInput = (e) => {
@@ -44,12 +52,13 @@ SetProfileImage(response.data)
   const handleSubmit=(e)=>{
       e.preventDefault();
  
- 
+ const userId=localStorage.getItem("user_Id")
 
       const fd=new FormData()
       fd.append('file',file,)
      fd.append('title',title)
-
+     fd.append('_id',userId)
+     
       try{
      const URL='http://localhost:4000/posts/add-post'
 
@@ -161,12 +170,12 @@ console.log(err);
            
 
             <span className="postUsername"> 
-             {obj.name} 
+             {obj.userName} 
             </span>
             <span className="postDate"> </span>
           </div>
           <div className="postTopRight">
-          today
+        {obj.createdAt}
           </div>
         </div>
         <div className="postCenter">

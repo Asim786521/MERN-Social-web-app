@@ -9,6 +9,11 @@ const Navbar = ( ) => {
     const ToggleSidebar = () => {
         isOpen === true ? setIsopen(false) : setIsopen(true);
     }
+
+    const handleLogout = () => {
+		localStorage.removeItem("token");
+		window.location.reload();
+	};
         return (
             <>
 
@@ -41,8 +46,9 @@ const Navbar = ( ) => {
                                 </li>
                                     <li><a className="sd-link" href='/chats'>chat</a></li>
                                      
-                            
+                                    
                                 </ul>
+                            <button   onSubmit={handleLogout}>logout</button>
                             </div>
                         </div>
                         <div className={`sidebar-overlay ${isOpen === true ? 'active' : ''}`} onClick={ToggleSidebar}></div>
