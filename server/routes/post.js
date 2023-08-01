@@ -88,4 +88,22 @@ route.get('/posts-saved',(req,res)=>{
    postModel.savedPost.find().then(saved=>res.json(saved)).catch((err)=>console.log(err))
 })
 
+
+route.put('/liked-post',async(req,res)=>{
+  
+   const likedPostobject=req.body.likedPostdata
+     
+   const likeddataCheck=await postModel.likedPost.findOne({likedpostId:new ObjectId(likedPostobject.userId),title:likedPostobject.title,Image:likedPostobject.Image,likedStatus:likedPostobject.liked})
+    
+    
+   if(likeddataCheck){
+       return res.json({status:"error",message:"post already liked" ,_id:likeddataCheck.likedpostId})
+   }else{
+       await postModel.likedPost.create({likedpostId:new ObjectId(likedPostobject.userId),title:likedPostobject.title,Image:likedPostobject.Image,likedStatus:likedPostobject.liked})
+       return res.json({status:"success",response:" post liked"})
+   }
+    
+    
+   })
+
 module.exports = route ;

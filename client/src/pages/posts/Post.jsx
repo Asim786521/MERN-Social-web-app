@@ -5,6 +5,7 @@ import "./Post.css";
  import { useState,useEffect } from 'react';
  import axios from 'axios'
  import {   useNavigate } from 'react-router-dom';
+ import Heart from "react-animated-heart";
 const Post = () => {
 
    
@@ -12,6 +13,7 @@ const Post = () => {
   
     const[profileImage,SetProfileImage]=useState([])
     const[saved,postSaved]=useState('')
+    const[liked,postliked]=useState()
     const [toggle, setToggle] = useState(true)
     const userId=localStorage.getItem("user_Id")
  
@@ -84,7 +86,7 @@ console.log(err);
  
     try{
       const response= await axios.put('http://localhost:4000/posts/saved-post',{savedPostdata})
-      console.log("post saved",response.data);
+      console.log("post saved",response.data._id);
      
   
 
@@ -102,6 +104,43 @@ console.log(err);
 
   };
   
+  const likedPost=async(data)=>{
+        console.log("liked data is",data);
+    
+
+    setToggle(!toggle)
+    console.log("toggle state is",toggle);
+    const likedPostdata={
+      userId:data._id,
+       title:data.name,
+       Image:data.image,
+       liked:true
+  }
+ 
+
+  try{
+    const response= await axios.put('http://localhost:4000/posts/liked-post',{likedPostdata})
+    console.log("post liked",response.data);
+   
+
+
+    if(response.data._id){ 
+      
+      postliked(response.data._id)
+       
+    }else{
+      alert(response.data.response)
+    } 
+
+  } catch (err) {
+    console.log(err);
+  }
+
+  }
+
+  const removeLike=()=>{
+    alert("like remove")
+  }
   return (
    <div>
     <Navbar/>  
@@ -193,16 +232,17 @@ console.log(err);
             <span className="postLikeCounter"> </span>
           </div>
           <div className="postBottomRight">
-            <span className="postCommentText">  comments</span>    
+          {  liked===obj._id?(<span className="postCommentText">  yuuj</span>):""} 
         </div>
       </div>
   
     </div>
-    
-    {toggle && toggle?( <i class="like-icon"  onClick={() => setToggle(!toggle)}     ></i> ):  <i onClick={() => setToggle(toggle)} class="like-icon"    style={{ color:'#e23b3b',content:'\f004' }}  ></i> }
- 
+    {  liked===obj._id?( <i class="fa-solid fa-heart fa-lg"   size="lg" style={{color: "#f52439",}} ></i>):  <i className="like-icon"  onClick={() => {setToggle(!toggle);likedPost({...obj})}}     ></i>  }
+
     <div className="postSave">
     
+    
+ 
     {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
       <span className="float-right"> <i class="fas fa-save"></i></span></button>}
       </div>

@@ -232,21 +232,6 @@
   font-weight:400;
 }
 
-.like-icon.press {
-  animation: size .4s;
-  color:#e23b3b;
-}
-.like-icon-after {
-  animation: size .4s;
-  color:#e23b3b;
-}
-.like-button.press {
-  bottom:120px;
-  font-size:14px;
-  visibility:visible;
-  animation: fade 1s;
-}
-
  
  
  
@@ -260,3 +245,5 @@
     margin-top:-4px;}
   100% {padding:10px 12px 8px;}
 }
+
+ 

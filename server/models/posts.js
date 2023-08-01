@@ -1,4 +1,4 @@
-const { object, string, date } = require('joi');
+const { object, string, date, boolean } = require('joi');
 const { ObjectId } = require('mongodb');
 const mongoose=require('mongoose')
 
@@ -20,6 +20,13 @@ const savedpostSchema=mongoose.Schema({
   Image:String,
  
 })
+
+const likedpostSchema=mongoose.Schema({
+  likedpostId:ObjectId,
+  title:String,
+  Image:String,
+  likedStatus:Boolean
+})
  
 
 
@@ -27,7 +34,8 @@ const savedpostSchema=mongoose.Schema({
  const postData =mongoose.model("posts",postSchema)
 
 const savedPost = mongoose.model('savedposts', savedpostSchema);
+const likedPost = mongoose.model('likedposts', likedpostSchema);
 
  module.exports={
-  postData,savedPost
+  postData,savedPost,likedPost
  }
