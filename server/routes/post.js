@@ -58,7 +58,9 @@ route.post('/add-post',upload.single('file'), async(req,res)=>{
    
 }),
 
-route.get("/get-postData", (req,res)=>{
+route.get("/get-postData",(req,res)=>{
+ 
+ 
     postModel.postData.find().then(user=>res.json(user));
    
    // console.log('getPosts',getPosts.file[1])
@@ -105,5 +107,10 @@ route.put('/liked-post',async(req,res)=>{
     
     
    })
+
+   route.get('/liked-post',(req,res)=>{
+      postModel.likedPost.find().then(liked=>res.json(liked)).catch((err)=>console.log(err))
+   })
+   
 
 module.exports = route ;

@@ -14,6 +14,7 @@ const Post = () => {
     const[profileImage,SetProfileImage]=useState([])
     const[saved,postSaved]=useState('')
     const[liked,postliked]=useState()
+    const[likedStatus,setLikedStatus]=useState([])
     const [toggle, setToggle] = useState(true)
     const userId=localStorage.getItem("user_Id")
  
@@ -30,12 +31,15 @@ const Post = () => {
 SetProfileImage(response.data)
 
  
-      }).catch((err)=>console.log(err))
-         
+      }).catch((err)=>console.log(err));
+
+      axios.get('http://localhost:4000/posts/liked-post').then((response)=>{
+         console.log("liked post",response.data);
+         setLikedStatus(response.data)
+    }).catch((err)=>console.log(err));
    
-             
       
-        },
+   },
     
     [])
       
@@ -138,9 +142,7 @@ console.log(err);
 
   }
 
-  const removeLike=()=>{
-    alert("like remove")
-  }
+  
   return (
    <div>
     <Navbar/>  
@@ -194,10 +196,14 @@ console.log(err);
  
     {profileImage && 
     profileImage.map((obj,index)=>(
-
-
-    <div className="post" key={obj._id}>
+      
+       
+ 
+    <div className="post" key={obj._id}> 
+ 
+         
       <div className="postWrapper">
+     
         <div className="postTop">
           <div className="postTopLeft">
         {/* {profileImage.map((obj ,index)=>  */}
@@ -235,22 +241,37 @@ console.log(err);
           {  liked===obj._id?(<span className="postCommentText">  yuuj</span>):""} 
         </div>
       </div>
-  
+
     </div>
+  
+     
+
+
+
+
     {  liked===obj._id?( <i class="fa-solid fa-heart fa-lg"   size="lg" style={{color: "#f52439",}} ></i>):  <i className="like-icon"  onClick={() => {setToggle(!toggle);likedPost({...obj})}}     ></i>  }
 
     <div className="postSave">
+    {likedStatus.map((likeobj,index)=>(
+      <div key={likeobj.likedpostId}>
+     { likeobj.likedpostId && likeobj.likedStatus && likeobj.likedpostId===obj._id? (<Heart isClick={toggle} onClick={() => setToggle(!toggle)} />):<Heart isClick={!toggle} onClick={() => setToggle(toggle)} />}
+     </div>
+            ))}
     
+    {/* {  liked===obj._id?(<span>!<Heart isClick={toggle} onClick={() => setToggle(!toggle)} /></span>):"" } */}
+     
     
  
     {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
       <span className="float-right"> <i class="fas fa-save"></i></span></button>}
       </div>
+
+
       {/* <div className="postSave">
     {saved &&  obj._id!==saved?(<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>     <span className="float-right"> <i class="fas fa-save"></i></span></button>):<p className='text-primary'>already saved</p>}
  
       </div> */}
-  
+    
           </div>
     ))} 
  
