@@ -10,6 +10,7 @@ const postSchema=mongoose.Schema( {
   userName:String,
   name:String,
   image: String,
+  comments:{type:Array,default:[], }
  
 })
 

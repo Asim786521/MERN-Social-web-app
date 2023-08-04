@@ -28,7 +28,7 @@ const route=express.Router()
 route.post('/add-post',upload.single('file'), async(req,res)=>{ 
      
     const finduser=await User.findOne({_id:req.body._id})
-    console.log("finduser"+finduser);
+ 
    
     var dates = new Date();
     const uploadedTime=dates.toDateString();
@@ -109,9 +109,17 @@ route.put('/liked-post',async(req,res)=>{
    })
 
    route.get('/liked-post',(req,res)=>{
-     console.log("liked array",postModel.likedPost.find()) 
+    // console.log("liked array",postModel.likedPost.find()) 
       postModel.likedPost.find().then(liked=>res.json(liked)).catch((err)=>console.log(err))
    })
    
+  route.put('/post-comment',async(req,res)=>{
+      const post=await postModel.postData.findOne({_id:req.body.commentData.postId})
+      if(post){
+         console.log("post found")
+         await post.updateOne({$push:{comments:{commentedUserId:req.body.commentData.commentedUserId,commentedUserName:req.body.commentData.userName,comment:req.body.commentData.comment}}})
+      }
+  })
+
 
 module.exports = route ;

@@ -1,7 +1,7 @@
 import React ,{useState}from 'react'
 import "./Login.css"
 import axios from 'axios'
-import Post from '../posts/Post';
+ 
 const Login = () => {
 
   const [data, setData] = useState({ email: "", password: "" });
@@ -22,6 +22,7 @@ const Login = () => {
     console.log(res.message);
   
 localStorage.setItem("user_Id", res._id)
+localStorage.setItem("user_Name", res.name)
 localStorage.setItem("token", res.data);
 			window.location = "/";
 		} catch (error) {

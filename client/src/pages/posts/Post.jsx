@@ -18,20 +18,23 @@ const Post = () => {
     const[likedStatusCheck,setLikedStatusCheck]=useState([])
   
     const [toggle, setToggle] = useState(true)
-    const userId=localStorage.getItem("user_Id")
+
+    const [comment,setComment]=useState('')
  
        const[file,setFiles]=useState(null)
        const [title,setTitle]=useState('') 
        //const [id,setId]=useState() 
-       
+           const userId=localStorage.getItem("user_Id")
+           const userName=localStorage.getItem("user_Name")
     //
     useEffect(()=>{
 
       axios.get('http://localhost:4000/posts/get-postData').then((response)=>{
  
- 
-SetPostItems(response.data)
+ console.log("post items is",response.data[0].comments);
 
+SetPostItems(response.data)
+ 
  
       }).catch((err)=>console.log(err));
 
@@ -42,11 +45,12 @@ SetPostItems(response.data)
    
       
    },
-
+  
    
     [])
       
-    
+
+  
     const handleFileInput = (e) => {
       // handle validations
   
@@ -151,6 +155,35 @@ console.log(err);
     // 👇️ or simply set it to true
     // setIsShown(true);
   };
+const commentedUser=(e)=>{ 
+       e.preventDefault()
+  console.log('commented user data is',e.target.value);
+  setComment(e.target.value)
+}
+  const commentSubmit=async(e)=>{
+    e.preventDefault()
+    setIsShown(current => !current);
+    console.log(e.target.id)
+    console.log(e.target.postid)
+  const commentedPosId=e.target.id
+    const commentData={
+      postId:commentedPosId,
+       commentedUserId:userId,
+       userName:userName,
+       comment:comment
+    }
+    
+try{
+ const response= await axios.put('http://localhost:4000/posts/post-comment',{commentData})
+ console.log(response)
+}catch(error){
+  console.log(error);
+}
+   
+//alert(data)
+ 
+
+  }
  
   return (
    <div>
@@ -311,14 +344,12 @@ console.log(err);
     
 </div>
 
-<span style={{marginLeft:'9rem'}}> <i class="fa-solid fa-comment" style={{color:'#476fb3',fontSize:"30px"}}  onClick={handleClick}></i></span>
+{ obj._d?(<span style={{marginLeft:'9rem'}}> <i class="fa-solid fa-comment" style={{color:'#476fb3',fontSize:"30px"}}  onClick={handleClick}></i></span>):""}
       </div>
 
 
       <div   >
-<div > 
-
-</div>
+ 
   {/* 👇️ show elements on click */}
   {isShown && (
      <div class="detailBox">
@@ -331,6 +362,7 @@ console.log(err);
          <p class="taskDescription"> </p>
      </div>
      <div class="actionBox">
+     {obj.comments!==0 && obj.comments.map((comment,index)=>(
          <ul class="commentList">
              <li>
                  <div class="commenterImage">
@@ -348,18 +380,29 @@ console.log(err);
                  <div class="commenterImage">
                    
                  </div>
+
                  <div class="commentText">
-                     <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+                 
+                    {comment.commentedUserId?( 
+                    <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{comment.commentedUserName}<span style={{fontWeight:'lighter'}}>:{comment.comment} </span></p>
+                    
+                    
+                    )
+                    
+                 :""}   
+                   
  
                  </div>
+               
+                 
              </li>
-         </ul>
-         <form class="form-inline" role="form">
+         </ul>  ))}
+         <form class="form-inline" onSubmit={commentSubmit} id={obj._id} >
              <div class="form-group">
-                 <input class="form-control" type="text" placeholder="Your comments" />
+                 <input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />
              </div>
             
-                 <button class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+                 <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
              
          </form>
      </div>
