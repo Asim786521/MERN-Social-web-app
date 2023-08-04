@@ -11,10 +11,12 @@ const Post = () => {
    
   const navigate=useNavigate()
   
-    const[profileImage,SetProfileImage]=useState([])
+    const[postItems,SetPostItems]=useState([])
+    const [isShown, setIsShown] = useState(false);
     const[saved,postSaved]=useState('')
     const[liked,postliked]=useState()
-    const[likedStatus,setLikedStatus]=useState([])
+    const[likedStatusCheck,setLikedStatusCheck]=useState([])
+  
     const [toggle, setToggle] = useState(true)
     const userId=localStorage.getItem("user_Id")
  
@@ -28,19 +30,20 @@ const Post = () => {
       axios.get('http://localhost:4000/posts/get-postData').then((response)=>{
  
  
-SetProfileImage(response.data)
+SetPostItems(response.data)
 
  
       }).catch((err)=>console.log(err));
 
       axios.get('http://localhost:4000/posts/liked-post').then((response)=>{
          console.log("liked post",response.data);
-         setLikedStatus(response.data)
+         setLikedStatusCheck(response.data)
     }).catch((err)=>console.log(err));
    
       
    },
-    
+
+   
     [])
       
     
@@ -112,7 +115,7 @@ console.log(err);
         console.log("liked data is",data);
     
 
-    setToggle(!toggle)
+
     console.log("toggle state is",toggle);
     const likedPostdata={
       userId:data._id,
@@ -141,8 +144,14 @@ console.log(err);
   }
 
   }
+  const handleClick = event => {
+    // 👇️ toggle shown state
+    setIsShown(current => !current);
 
-  
+    // 👇️ or simply set it to true
+    // setIsShown(true);
+  };
+ 
   return (
    <div>
     <Navbar/>  
@@ -194,8 +203,8 @@ console.log(err);
  
 </div> */}
  
-    {profileImage && 
-    profileImage.map((obj,index)=>(
+    {postItems && 
+    postItems.map((obj,index)=>(
       
        
  
@@ -238,7 +247,7 @@ console.log(err);
             <span className="postLikeCounter"> </span>
           </div>
           <div className="postBottomRight">
-          {  liked===obj._id?(<span className="postCommentText">  yuuj</span>):""} 
+          {  liked===obj._id?(<span className="postCommentText"> </span>):""} 
         </div>
       </div>
 
@@ -249,23 +258,115 @@ console.log(err);
 
 
 
-    {  liked===obj._id?( <i class="fa-solid fa-heart fa-lg"   size="lg" style={{color: "#f52439",}} ></i>):  <i className="like-icon"  onClick={() => {setToggle(!toggle);likedPost({...obj})}}     ></i>  }
+    {  liked===obj._id?( <p style={{color:'#f52439'}}>already liked</p>):  <i className="like-icon"  onClick={() => likedPost({...obj})}     ></i>  }
 
     <div className="postSave">
-    {likedStatus.map((likeobj,index)=>(
-      <div key={likeobj.likedpostId}>
-     { likeobj.likedpostId && likeobj.likedStatus && likeobj.likedpostId===obj._id? (<Heart isClick={toggle} onClick={() => setToggle(!toggle)} />):<Heart isClick={!toggle} onClick={() => setToggle(toggle)} />}
-     </div>
-            ))}
+
+   
+
+    {likedStatusCheck.filter(status => status.likedStatus===true && status.likedpostId===obj._id).map((likeobj)=>(
+        <div key={index}>
     
-    {/* {  liked===obj._id?(<span>!<Heart isClick={toggle} onClick={() => setToggle(!toggle)} /></span>):"" } */}
+    <p style={{color: "#f52439",}}>you liked!!!<Heart isClick={toggle} onClick={() => setToggle(!toggle)} /></p>
+  
+ 
+ 
+     </div>
+       
+     
+            ))
+            
+       
+            }
+
+         
+ 
+
+ 
+ 
+ 
+ 
+       
+    
+    
+
+    
+   {likedStatusCheck.map((likeobj,index)=>(
+        <div key={likeobj.likedpostId}>  
+    
+    
+       { likeobj.likedpostId && likeobj.likedStatus===null && likeobj.likedpostId!==obj._id? (<p style={{color: "#f52439",}}>you bot liked!!!<Heart isClick={toggle} onClick={() => setToggle(!toggle)} /></p>):"" }
+    
+     </div>
+   
+     
+            ))}      
+ 
+   
      
     
- 
-    {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>
+ <div style={{marginLeft:"9rem"}}> 
+    {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto" style={{fontSize:"23px"}} onClick={() => savedPost({...obj})}>
       <span className="float-right"> <i class="fas fa-save"></i></span></button>}
+    
+</div>
+
+<span style={{marginLeft:'9rem'}}> <i class="fa-solid fa-comment" style={{color:'#476fb3',fontSize:"30px"}}  onClick={handleClick}></i></span>
       </div>
 
+
+      <div   >
+<div > 
+
+</div>
+  {/* 👇️ show elements on click */}
+  {isShown && (
+     <div class="detailBox">
+     <div class="titleBox">
+       <label>Comment Box</label>
+         <button type="button" class="close"  aria-hidden="true">&times;</button>
+     </div>
+     <div class="commentBox">
+         
+         <p class="taskDescription"> </p>
+     </div>
+     <div class="actionBox">
+         <ul class="commentList">
+             <li>
+                 <div class="commenterImage">
+                   <img src="http://placekitten.com/50/50"  alt=''/>
+                 </div>
+              
+             </li>
+             <li>
+                 <div class="commenterImage">
+      
+                 </div>
+                 
+             </li>
+             <li>
+                 <div class="commenterImage">
+                   
+                 </div>
+                 <div class="commentText">
+                     <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+ 
+                 </div>
+             </li>
+         </ul>
+         <form class="form-inline" role="form">
+             <div class="form-group">
+                 <input class="form-control" type="text" placeholder="Your comments" />
+             </div>
+            
+                 <button class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+             
+         </form>
+     </div>
+ </div>
+  )}
+{/* {  liked===obj._id?(<span className="postCommentText"> </span>):""}  */}
+</div>
 
       {/* <div className="postSave">
     {saved &&  obj._id!==saved?(<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>     <span className="float-right"> <i class="fas fa-save"></i></span></button>):<p className='text-primary'>already saved</p>}

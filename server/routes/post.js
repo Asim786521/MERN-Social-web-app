@@ -109,6 +109,7 @@ route.put('/liked-post',async(req,res)=>{
    })
 
    route.get('/liked-post',(req,res)=>{
+     console.log("liked array",postModel.likedPost.find()) 
       postModel.likedPost.find().then(liked=>res.json(liked)).catch((err)=>console.log(err))
    })
    
