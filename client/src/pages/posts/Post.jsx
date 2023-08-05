@@ -216,9 +216,7 @@ try{
    <div>
     <Navbar/>  
 
-  
-    
-     
+<div class="post-container">
     <div className="box">
 
 
@@ -464,7 +462,7 @@ try{
  </div>
    
  
-
+</div>
    
    
   )

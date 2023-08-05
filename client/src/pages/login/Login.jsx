@@ -40,7 +40,7 @@ localStorage.setItem("token", res.data);
 
     <body className='body-login'>
 
-    <div className="container">
+    <div className="container-new">
     <div className="form-box">
       <div className="header-form">
         <h4 className="text-primary text-center"><i className="fa fa-user-circle" style={{fontSize:"110px"}}></i></h4>
