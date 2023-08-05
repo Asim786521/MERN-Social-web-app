@@ -117,7 +117,8 @@ route.put('/liked-post',async(req,res)=>{
       const post=await postModel.postData.findOne({_id:req.body.commentData.postId})
       if(post){
          console.log("post found")
-         await post.updateOne({$push:{comments:{commentedUserId:req.body.commentData.commentedUserId,commentedUserName:req.body.commentData.userName,comment:req.body.commentData.comment}}})
+         await post.updateOne({$push:{comments:{commentedpostId:req.body.commentData.postId,commentedUserId:req.body.commentData.commentedUserId,commentedUserName:req.body.commentData.userName,comment:req.body.commentData.comment}}})
+         return res.json({status:"error",message:`${req.body.commentData.userName} is commented` ,_id:post._id})
       }
   })
 

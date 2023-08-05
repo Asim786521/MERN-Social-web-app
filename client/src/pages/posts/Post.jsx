@@ -12,10 +12,11 @@ const Post = () => {
   const navigate=useNavigate()
   
     const[postItems,SetPostItems]=useState([])
-    const [isShown, setIsShown] = useState(false);
+    const [isShown, setIsShown] = useState();
     const[saved,postSaved]=useState('')
     const[liked,postliked]=useState()
     const[likedStatusCheck,setLikedStatusCheck]=useState([])
+    const[commentArr,setcommentArr]=useState([])
   
     const [toggle, setToggle] = useState(true)
 
@@ -24,6 +25,7 @@ const Post = () => {
        const[file,setFiles]=useState(null)
        const [title,setTitle]=useState('') 
        //const [id,setId]=useState() 
+       const [dropdown, setDropdown] = useState(null);
            const userId=localStorage.getItem("user_Id")
            const userName=localStorage.getItem("user_Name")
     //
@@ -31,9 +33,17 @@ const Post = () => {
 
       axios.get('http://localhost:4000/posts/get-postData').then((response)=>{
  
- console.log("post items is",response.data[0].comments);
+ console.log("post items is",response.data);
+
+
 
 SetPostItems(response.data)
+
+response.data.map((obj,index)=>(
+  
+ setcommentArr(obj.comments)
+  )
+)
  
  
       }).catch((err)=>console.log(err));
@@ -131,7 +141,7 @@ console.log(err);
 
   try{
     const response= await axios.put('http://localhost:4000/posts/liked-post',{likedPostdata})
-    console.log("post liked",response.data);
+    
    
 
 
@@ -148,13 +158,7 @@ console.log(err);
   }
 
   }
-  const handleClick = event => {
-    // 👇️ toggle shown state
-    setIsShown(current => !current);
 
-    // 👇️ or simply set it to true
-    // setIsShown(true);
-  };
 const commentedUser=(e)=>{ 
        e.preventDefault()
   console.log('commented user data is',e.target.value);
@@ -184,6 +188,29 @@ try{
  
 
   }
+  const handleClick = index => {
+    // 👇️ toggle shown state
+ console.log("commenarray",commentArr);
+   
+   console.log("comment button clicked",index)
+  
+    setDropdown((prev) => {
+      return prev === index? null : index;
+  });
+ 
+ 
+  
+      if(postItems[0].comments.length!==0){
+      return setIsShown(true)
+  }else{
+     return  setIsShown(false)
+  }
+    
+   
+
+    // 👇️ or simply set it to true
+    // setIsShown(true);
+  };
  
   return (
    <div>
@@ -341,18 +368,19 @@ try{
  <div style={{marginLeft:"9rem"}}> 
     {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto" style={{fontSize:"23px"}} onClick={() => savedPost({...obj})}>
       <span className="float-right"> <i class="fas fa-save"></i></span></button>}
-    
+ 
 </div>
 
-{ obj._d?(<span style={{marginLeft:'9rem'}}> <i class="fa-solid fa-comment" style={{color:'#476fb3',fontSize:"30px"}}  onClick={handleClick}></i></span>):""}
+    <span style={{marginLeft:'9rem'}}> <i class="fa-solid fa-comment" style={{color:'#476fb3',fontSize:"30px"}}  onClick={()=>handleClick(index)}></i></span> 
       </div>
 
+{isShown?(<p>comments exist</p>):<p>comments not exist</p>}
 
       <div   >
  
   {/* 👇️ show elements on click */}
-  {isShown && (
-     <div class="detailBox">
+    { dropdown === index  && obj.comments[index]?(
+     <div   className='detailbox' >
      <div class="titleBox">
        <label>Comment Box</label>
          <button type="button" class="close"  aria-hidden="true">&times;</button>
@@ -361,8 +389,8 @@ try{
          
          <p class="taskDescription"> </p>
      </div>
-     <div class="actionBox">
-     {obj.comments!==0 && obj.comments.map((comment,index)=>(
+    <div class="actionBox">
+  
          <ul class="commentList">
              <li>
                  <div class="commenterImage">
@@ -381,22 +409,24 @@ try{
                    
                  </div>
 
-                 <div class="commentText">
+               
+                   <div class="commentText">
                  
-                    {comment.commentedUserId?( 
-                    <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{comment.commentedUserName}<span style={{fontWeight:'lighter'}}>:{comment.comment} </span></p>
+                    {/* { comment.commentedpostId===obj._id ?(  */}
+                    <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{obj.comments[index].commentedUserName}<span style={{fontWeight:'lighter'}}>:{obj.comments[index].comment} </span></p>
                     
                     
-                    )
+                {/* //     )
                     
-                 :""}   
+                //  :"noooo"}  
+                */}
                    
  
                  </div>
-               
+                 
                  
              </li>
-         </ul>  ))}
+         </ul>  
          <form class="form-inline" onSubmit={commentSubmit} id={obj._id} >
              <div class="form-group">
                  <input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />
@@ -405,9 +435,11 @@ try{
                  <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
              
          </form>
-     </div>
- </div>
-  )}
+     </div> 
+ </div>):""}
+
+ 
+
 {/* {  liked===obj._id?(<span className="postCommentText"> </span>):""}  */}
 </div>
 
