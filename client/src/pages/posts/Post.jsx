@@ -12,7 +12,7 @@ const Post = () => {
   const navigate=useNavigate()
   
     const[postItems,SetPostItems]=useState([])
-    const [isShown, setIsShown] = useState();
+    
     const[saved,postSaved]=useState('')
     const[liked,postliked]=useState()
     const[likedStatusCheck,setLikedStatusCheck]=useState([])
@@ -25,7 +25,7 @@ const Post = () => {
        const[file,setFiles]=useState(null)
        const [title,setTitle]=useState('') 
        //const [id,setId]=useState() 
-       const [dropdown, setDropdown] = useState(null);
+       const [commentShowdown, setCommentShowdown] = useState(null);
            const userId=localStorage.getItem("user_Id")
            const userName=localStorage.getItem("user_Name")
     //
@@ -166,9 +166,9 @@ const commentedUser=(e)=>{
 }
   const commentSubmit=async(e)=>{
     e.preventDefault()
-    setIsShown(current => !current);
-    console.log(e.target.id)
-    console.log(e.target.postid)
+   
+    console.log("id is ",e.target.id)
+ 
   const commentedPosId=e.target.id
     const commentData={
       postId:commentedPosId,
@@ -194,17 +194,17 @@ try{
    
    console.log("comment button clicked",index)
   
-    setDropdown((prev) => {
+    setCommentShowdown((prev) => {
       return prev === index? null : index;
   });
  
  
   
-      if(postItems[0].comments.length!==0){
-      return setIsShown(true)
-  }else{
-     return  setIsShown(false)
-  }
+  //     if(postItems[0].comments.length!==0){
+  //     return setIsShown(true)
+  // }else{
+  //    return  setIsShown(false)
+  // }
     
    
 
@@ -374,23 +374,25 @@ try{
     <span style={{marginLeft:'9rem'}}> <i class="fa-solid fa-comment" style={{color:'#476fb3',fontSize:"30px"}}  onClick={()=>handleClick(index)}></i></span> 
       </div>
 
-{isShown?(<p>comments exist</p>):<p>comments not exist</p>}
-
-      <div   >
  
-  {/* 👇️ show elements on click */}
-    { dropdown === index  && obj.comments[index]?(
-     <div   className='detailbox' >
+
+ 
+ 
+  
+   
+  <div   className='detailbox' >
+  
      <div class="titleBox">
        <label>Comment Box</label>
-         <button type="button" class="close"  aria-hidden="true">&times;</button>
-     </div>
+ 
+     </div> 
      <div class="commentBox">
          
          <p class="taskDescription"> </p>
      </div>
     <div class="actionBox">
-  
+   { commentShowdown === index  && obj.comments.map((commentobj,index)=>(
+    <div>
          <ul class="commentList">
              <li>
                  <div class="commenterImage">
@@ -413,7 +415,7 @@ try{
                    <div class="commentText">
                  
                     {/* { comment.commentedpostId===obj._id ?(  */}
-                    <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{obj.comments[index].commentedUserName}<span style={{fontWeight:'lighter'}}>:{obj.comments[index].comment} </span></p>
+                    <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>
                     
                     
                 {/* //     )
@@ -434,14 +436,19 @@ try{
             
                  <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
              
-         </form>
-     </div> 
- </div>):""}
+        </form> </div>
+ )
+
+    )}    </div> 
+ </div>
+ 
+    
+   
 
  
 
 {/* {  liked===obj._id?(<span className="postCommentText"> </span>):""}  */}
-</div>
+ 
 
       {/* <div className="postSave">
     {saved &&  obj._id!==saved?(<button   type="button" className="btn btn-outline-info  ml-auto"  onClick={() => savedPost({...obj})}>     <span className="float-right"> <i class="fas fa-save"></i></span></button>):<p className='text-primary'>already saved</p>}
