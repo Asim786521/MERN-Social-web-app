@@ -98,7 +98,7 @@ const Navbar = ( ) => {
                                <h4 className='profile-name' >{userName}</h4>
                                     <p>
                                 <Link to='/liked' className="liked" a><i class="fa fa-thumbs-up" aria-hidden="true" /></Link></p>
-                                   <p> <a  href='/saved' class="saved">Saved</a></p>
+                                   <p> <Link to='/saved' class="saved">Saved</Link></p>
                                     <div className="btn btn-primary" onClick={ToggleSidebar} >
                                         <i className="fa fa-bars"></i>
                                     </div>
