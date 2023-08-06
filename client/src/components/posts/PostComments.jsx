@@ -56,7 +56,14 @@ const PostComments = (props) => {
       <p class="taskDescription"> </p>
   </div>
  <div class="actionBox">
-  {commentShowdown === props.index  && props.commentArray.length===0?(<p>not comments yet</p>):"" }
+  {commentShowdown === props.index  && props.commentArray.length===0?(<form class="form-inline" onSubmit={commentSubmit} id={props._id} >
+          <div class="form-group">
+            <p>add new Comment....</p>
+              <input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />
+          </div>
+         
+              <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+      </form>):"" }
 { commentShowdown === props.index  && props.commentArray.map((commentobj,index)=>(
  <div>
       <ul class="commentList">
