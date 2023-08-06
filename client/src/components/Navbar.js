@@ -97,7 +97,7 @@ const Navbar = ( ) => {
                                  <div className="form-inline ml-auto">
                                <h4 className='profile-name' >{userName}</h4>
                                     <p>
-                                <a href='/liked' class="liked"><i class="fa fa-thumbs-up" aria-hidden="true" /></a></p>
+                                <Link to='/liked' className="liked" a><i class="fa fa-thumbs-up" aria-hidden="true" /></Link></p>
                                    <p> <a  href='/saved' class="saved">Saved</a></p>
                                     <div className="btn btn-primary" onClick={ToggleSidebar} >
                                         <i className="fa fa-bars"></i>
