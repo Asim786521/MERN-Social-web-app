@@ -36,17 +36,21 @@ route.post("/", async (req, res) => {
 });
 
 route.post('/add-profileImage',upload.single('file'),async(req,res)=>{
-	const user=await User.findOne({_id:req.body.userId})
+	const user=await User.findOne({_id:req.body._id})
 
-	console.log(`profile updated ${req.file.filename}`);
-	try{
+ 
+	 try{
 		if(user){
-	const profileFile=user.profileImage.push(req.file.filename) 
-	await profileFile.save()
-	console.log("profile to db",profileFile)
-		return res.status(200).json({ status: 'profile updated', });
-	
-	}
+
+			await user.updateOne({ $set: { profileImage:req.file.filename }})
+			  res.status(200).send({ status: 'profile updated',name:user.username,profileImage:user.profileImage });	
+	 
+	 
+
+		 console.log("updated value is",await User.findOne({_id:req.body._id}));
+		// Load the document to see the updated value
+ 
+	} 
 	}catch(error){
 		console.log(error);
 	}

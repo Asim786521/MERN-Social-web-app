@@ -91,6 +91,12 @@ body {
     font-weight:bold;
     
 }
+.profile-name{
+  margin-right:59rem;
+  color:#f91727;
+   font-size: 20px;
+  
+}
 .liked{
      margin-right:8rem;
      color:#3476e0;

@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
 	 
 	email: { type: String, required: true },
 	password: { type: String, required: true },
-	profileImage:String
+	profileImage:{type:String,default:''}
 });
 
 userSchema.methods.generateAuthToken = function () {
