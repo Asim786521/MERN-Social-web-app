@@ -428,18 +428,18 @@ try{
                  
                  
              </li>
-         </ul>  
-         <form class="form-inline" onSubmit={commentSubmit} id={obj._id} >
-             <div class="form-group">
-                 <input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />
-             </div>
-            
-                 <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
-             
-        </form> </div>
+  <form class="form-inline" onSubmit={commentSubmit} id={obj._id} >
+    <div class="form-group">
+        <input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />
+    </div>
+   
+        <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+    
+</form>         </ul>  
+       </div>
  )
 
-    )}    </div> 
+    )}     </div> 
  </div>
  
     
