@@ -1,10 +1,10 @@
 
 import './App.css';
-import Navbar from './components/Navbar';
+import Navbar from './pages/Navbar/Navbar';
 import Chat from './pages/chats/Chat';
-import Post from   './pages/posts/Post';
+import Post from   './components/posts/Post';
 import { BrowserRouter, Routes, Route,Navigate} from "react-router-dom";
- import SavedPosts from './pages/posts/SavedPosts';
+ import SavedPosts from './pages/savedPosts/SavedPosts.jsx';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
  

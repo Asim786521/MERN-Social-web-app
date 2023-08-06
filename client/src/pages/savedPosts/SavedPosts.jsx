@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../../components/Navbar'
+import Navbar from '../../pages/Navbar/Navbar'
 import { useEffect ,useState} from 'react'
 import axios from 'axios'
 const SavedPosts = () => {
