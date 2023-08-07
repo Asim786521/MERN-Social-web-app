@@ -16,6 +16,24 @@ const PostComments = (props) => {
    console.log('commented user data is',e.target.value);
    setComment(e.target.value)
  }
+
+ const deleteComment=async (commentData)=>{
+  alert('do you want delete')
+    console.log(commentData)
+     const Deletecomment={
+      commentedpostId:commentData.commentedpostId,
+      commentUserId:commentData.commentedUserId,
+      comment:commentData.comment,
+      deleteStatus:true
+     }
+
+     try{
+      const deletedresponse=await axios.put('http://localhost:4000/posts/delete-comment',{Deletecomment})
+      console.log(deletedresponse);
+     }catch(error){
+      console.log(console.error);
+     }
+ }
    const commentSubmit=async(e)=>{
      e.preventDefault()
     const commentedPosId=e.target.id
@@ -88,7 +106,7 @@ const PostComments = (props) => {
                 <div class="commentText">
               
                
-                 <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>
+                 <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span><button type='button' onClick={()=>deleteComment({...commentobj})}>delete</button></p>
     
 
               </div>

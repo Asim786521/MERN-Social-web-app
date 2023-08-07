@@ -123,4 +123,21 @@ route.put('/liked-post',async(req,res)=>{
   })
 
 
+  route.put('/delete-comment',async(req,res)=>{
+   const post=await postModel.postData.findOne({_id:req.body.Deletecomment.commentedpostId})
+
+   try{
+    if(post){
+    await post.updateOne({$pull:{comments:{commentedUserId:req.body.Deletecomment.commentedUserId,comment:req.body.Deletecomment.comment}}}).then((res)=>{
+  console.log("comment deleted",res);
+    })
+    return res.json({status:"error",message:`${req.body.Deletecomment.commentedUserId}  comment deleted` ,_id:post._id})
+   }  
+   }catch(error){
+      console.log(error)
+   }
+   
+  })
+
+
 module.exports = route ;

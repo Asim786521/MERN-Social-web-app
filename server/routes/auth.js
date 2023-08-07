@@ -35,7 +35,7 @@ route.post("/", async (req, res) => {
 route.get("/getUser-Profile/:id",async (req,res)=>{
 	const user = await User.findById(req.params.id);
 	if(user){
-		console.log(`user is ${user}`);
+ 
 		res.status(200).send({ status: 'profile updated',name:user.username,profileImage:user.profileImage });	
 	}
 })
