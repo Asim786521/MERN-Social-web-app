@@ -117,14 +117,17 @@ const PostComments = (props) => {
                 <div class="commentText">
               
  
-                 <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span><i  className={ deletedIndex===index?("fa-solid fa-trash fa-shake fa-lg"):"fa-solid fa-trash  fa-lg"} style={{color:"#e00022"}} onClick={()=>deleteComment(index,{...commentobj})}></i></p>
+                 <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>
         
- 
+    
               </div>
                
  
 
  
+          </li>
+          <li>
+          <i  className={ deletedIndex===index?("fa-solid fa-trash fa-shake fa-lg"):"fa-solid fa-trash  fa-lg"} style={{color:"#e00022",marginLeft:'77rem'}} onClick={()=>deleteComment(index,{...commentobj})}></i>
           </li>
       </ul>  
       <form class="form-inline" onSubmit={commentSubmit} id={props._id} >
