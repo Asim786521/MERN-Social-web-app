@@ -9,7 +9,7 @@ const PostComments = (props) => {
     const userName=localStorage.getItem("user_Name")
    const [commentShowdown, setCommentShowdown] = useState(null);
    const userId=localStorage.getItem("user_Id")
-    
+    const[deleteButton,setDeleteButton]=useState(true)
 
     const commentedUser=(e)=>{ 
         e.preventDefault()
@@ -107,11 +107,13 @@ const PostComments = (props) => {
               
                
                  <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span><button type='button' onClick={()=>deleteComment({...commentobj})}>delete</button></p>
-    
-
+        
+ 
               </div>
-              
-              
+               
+ {deleteButton?(<i key={index} class="fa-solid fa-trash fa-lg" style={{color:"#4384e5;"}} onClick={()=>setDeleteButton(!deleteButton)}></i>):<i class="fa-solid fa-trash fa-shake fa-lg" onClick={()=>setDeleteButton(!deleteButton)} style={{color: '#e00022'}}></i>}
+
+ 
           </li>
       </ul>  
       <form class="form-inline" onSubmit={commentSubmit} id={props._id} >
@@ -121,6 +123,7 @@ const PostComments = (props) => {
          
               <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
       </form>
+
 </div>
 )
 

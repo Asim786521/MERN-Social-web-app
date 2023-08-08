@@ -59,12 +59,10 @@ const Navbar = ( ) => {
     }
 
 
-    useEffect(()=>{
+    useEffect (()=>{
         (async () => {
           await  axios.get(`http://localhost:4000/auth/getUser-Profile/${userId}`).then((res)=>{
-        console.log(res);
-        console.log("proImage",res.data.profileImage);
-        setUserName(res.data.name) 
+            setUserName(res.data.name) 
         setProfileImage(res.data.profileImage)
       }) 
     })();

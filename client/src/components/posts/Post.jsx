@@ -130,6 +130,7 @@ const Post = () => {
 </div>
 
  <PostComments  index={index}  _id={obj._id}  commentArray={obj.comments}/>
+   
   </div>
     ))} 
  </div>
