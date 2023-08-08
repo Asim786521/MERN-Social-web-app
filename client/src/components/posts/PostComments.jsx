@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState} from 'react'
+import { useState,useEffect} from 'react'
 import  axios from 'axios'
  
 const PostComments = (props) => {
@@ -7,11 +7,13 @@ const PostComments = (props) => {
 
      
     const [comment,setComment]=useState('')
+    const [commentStatus,setCommentstatus]=useState(null)
     const userName=localStorage.getItem("user_Name")
    const [commentShowdown, setCommentShowdown] = useState(null);
    const userId=localStorage.getItem("user_Id")
     const[deleteButton,setDeleteButton]=useState(true)
     const[deletedIndex,setDeletedIndex]=useState(null)
+    const[deleteStatus,setDeleteStatus]=useState(null)
 
     const commentedUser=(e)=>{ 
         e.preventDefault()
@@ -19,6 +21,7 @@ const PostComments = (props) => {
    setComment(e.target.value)
  }
 
+ 
  const deleteComment=async (index,commentData)=>{
     
 
@@ -37,8 +40,8 @@ const PostComments = (props) => {
 
      try{
       const deletedresponse=await axios.put('http://localhost:4000/posts/delete-comment',{Deletecomment})
-      console.log("deleted ",deletedresponse);
-    
+      console.log(deletedresponse);
+      setDeleteStatus(deletedresponse.data.message)
      
      }catch(error){
       console.log(console.error);
@@ -57,6 +60,7 @@ const PostComments = (props) => {
      try{
       const response= await axios.put('http://localhost:4000/posts/post-comment',{commentData})
         console.log(response)
+        setCommentstatus(response.data.message)
       }catch(error){
              console.log(error);
  }
@@ -117,7 +121,7 @@ const PostComments = (props) => {
                 <div class="commentText">
               
  
-                 <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>
+              {!deleteStatus ?( <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>):""}  
         
     
               </div>
@@ -132,7 +136,7 @@ const PostComments = (props) => {
       </ul>  
       <form class="form-inline" onSubmit={commentSubmit} id={props._id} >
           <div class="form-group">
-              <input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />
+             {!commentStatus ?(<input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />):""}
           </div>
          
               <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
