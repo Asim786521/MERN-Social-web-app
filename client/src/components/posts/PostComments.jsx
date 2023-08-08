@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState} from 'react'
 import  axios from 'axios'
+ 
 const PostComments = (props) => {
 
 
@@ -10,6 +11,7 @@ const PostComments = (props) => {
    const [commentShowdown, setCommentShowdown] = useState(null);
    const userId=localStorage.getItem("user_Id")
     const[deleteButton,setDeleteButton]=useState(true)
+    const[deletedIndex,setDeletedIndex]=useState(null)
 
     const commentedUser=(e)=>{ 
         e.preventDefault()
@@ -17,19 +19,27 @@ const PostComments = (props) => {
    setComment(e.target.value)
  }
 
- const deleteComment=async (commentData)=>{
-  alert('do you want delete')
-    console.log(commentData)
+ const deleteComment=async (index,commentData)=>{
+    
+
+  setDeletedIndex((prev) => {
+    return prev === index? null : index 
+});
+  setDeleteButton(!deleteButton);
+  
+    
      const Deletecomment={
       commentedpostId:commentData.commentedpostId,
-      commentUserId:commentData.commentedUserId,
+      commenteUserId:commentData.commentedUserId,
       comment:commentData.comment,
       deleteStatus:true
      }
 
      try{
       const deletedresponse=await axios.put('http://localhost:4000/posts/delete-comment',{Deletecomment})
-      console.log(deletedresponse);
+      console.log("deleted ",deletedresponse);
+    
+     
      }catch(error){
       console.log(console.error);
      }
@@ -70,7 +80,7 @@ const PostComments = (props) => {
    
   </div> 
   <div class="commentBox">
-      
+           
       <p class="taskDescription"> </p>
   </div>
  <div class="actionBox">
@@ -79,8 +89,9 @@ const PostComments = (props) => {
             <p>add new Comment....</p>
               <input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />
           </div>
-         
+
               <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+          
       </form>):"" }
 { commentShowdown === props.index  && props.commentArray.map((commentobj,index)=>(
  <div>
@@ -100,18 +111,18 @@ const PostComments = (props) => {
           <li>
               <div class="commenterImage">
                 
-              </div>
+              </div> 
 
             
                 <div class="commentText">
               
-               
-                 <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span><button type='button' onClick={()=>deleteComment({...commentobj})}>delete</button></p>
+ 
+                 <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span><i  className={ deletedIndex===index?("fa-solid fa-trash fa-shake fa-lg"):"fa-solid fa-trash  fa-lg"} style={{color:"#e00022"}} onClick={()=>deleteComment(index,{...commentobj})}></i></p>
         
  
               </div>
                
- {deleteButton?(<i key={index} class="fa-solid fa-trash fa-lg" style={{color:"#4384e5;"}} onClick={()=>setDeleteButton(!deleteButton)}></i>):<i class="fa-solid fa-trash fa-shake fa-lg" onClick={()=>setDeleteButton(!deleteButton)} style={{color: '#e00022'}}></i>}
+ 
 
  
           </li>
