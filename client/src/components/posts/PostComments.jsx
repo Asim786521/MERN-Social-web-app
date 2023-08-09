@@ -13,7 +13,7 @@ const PostComments = (props) => {
    const userId=localStorage.getItem("user_Id")
     const[deleteButton,setDeleteButton]=useState(true)
     const[deletedIndex,setDeletedIndex]=useState(null)
-    const[deleteStatus,setDeleteStatus]=useState(null)
+    const[deleteStatus,setDeleteStatus]=useState()
 
     const commentedUser=(e)=>{ 
         e.preventDefault()
@@ -32,16 +32,18 @@ const PostComments = (props) => {
   
     
      const Deletecomment={
+      commentedIndex:index,
       commentedpostId:commentData.commentedpostId,
-      commenteUserId:commentData.commentedUserId,
+      commentedUserId:commentData.commentedUserId,
       comment:commentData.comment,
       deleteStatus:true
      }
 
      try{
-      const deletedresponse=await axios.put('http://localhost:4000/posts/delete-comment',{Deletecomment})
-      console.log(deletedresponse);
-      setDeleteStatus(deletedresponse.data.message)
+      const response=await axios.put('http://localhost:4000/posts/delete-comment',{Deletecomment})
+      console.log(response);
+      setDeleteStatus(response.data.commentIndex)
+      setDeleteButton(!deleteButton)
      
      }catch(error){
       console.log(console.error);
@@ -60,7 +62,7 @@ const PostComments = (props) => {
      try{
       const response= await axios.put('http://localhost:4000/posts/post-comment',{commentData})
         console.log(response)
-        setCommentstatus(response.data.message)
+        setCommentstatus(response.data)
       }catch(error){
              console.log(error);
  }
@@ -97,6 +99,41 @@ const PostComments = (props) => {
               <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
           
       </form>):"" }
+      {commentStatus &&    <ul class="commentList">
+          <li>
+              <div class="commenterImage">
+                <img src="http://placekitten.com/50/50"  alt=''/>
+              </div>
+           
+          </li>
+          <li>
+              <div class="commenterImage">
+   
+              </div>
+              
+          </li>
+          <li>
+              <div class="commenterImage">
+                
+              </div> 
+
+            
+                <div class="commentText">
+              
+ 
+       <p  style={{fontWeight:'bold',color:"#1462a6"}}>{commentStatus.message}<span style={{fontWeight:'lighter'}}>:{commentStatus.comment} </span></p>
+        
+    
+              </div>
+               
+ 
+
+ 
+          </li>
+          <li>
+ 
+          </li>
+      </ul>  }
 { commentShowdown === props.index  && props.commentArray.map((commentobj,index)=>(
  <div>
       <ul class="commentList">
@@ -121,7 +158,7 @@ const PostComments = (props) => {
                 <div class="commentText">
               
  
-              {!deleteStatus ?( <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>):""}  
+              {deleteStatus &&deleteStatus===index ?(<p  >comment deleted</p>): <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>}  
         
     
               </div>
@@ -134,9 +171,10 @@ const PostComments = (props) => {
           <i  className={ deletedIndex===index?("fa-solid fa-trash fa-shake fa-lg"):"fa-solid fa-trash  fa-lg"} style={{color:"#e00022",marginLeft:'77rem'}} onClick={()=>deleteComment(index,{...commentobj})}></i>
           </li>
       </ul>  
+
       <form class="form-inline" onSubmit={commentSubmit} id={props._id} >
           <div class="form-group">
-             {!commentStatus ?(<input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />):""}
+<input class="form-control" type="text" name="comment " onChange={commentedUser} placeholder="Your comments" />
           </div>
          
               <button type="submit"   class="btn btn-default" style={{marginBottom:'39px',color:'#476fb3'}}> <i className="fa fa-paper-plane" aria-hidden="true"></i></button>
@@ -146,7 +184,10 @@ const PostComments = (props) => {
 )
 
  )}
+
+ 
  </div> 
+ 
 </div>
     
     </>

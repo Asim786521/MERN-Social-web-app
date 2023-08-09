@@ -21,7 +21,7 @@ const Post = () => {
     useEffect(()=>{
 
       axios.get('http://localhost:4000/posts/get-postData').then((response)=>{
- 
+ console.log(response.data);
  SetPostItems(response.data) }).catch((err)=>console.log(err));
 
       axios.get('http://localhost:4000/posts/liked-post').then((response)=>{

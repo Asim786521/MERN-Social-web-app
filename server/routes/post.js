@@ -118,7 +118,7 @@ route.put('/liked-post',async(req,res)=>{
       if(post){
          console.log("post found")
          await post.updateOne({$push:{comments:{commentedpostId:req.body.commentData.postId,commentedUserId:req.body.commentData.commentedUserId,commentedUserName:req.body.commentData.userName,comment:req.body.commentData.comment}}})
-         return res.json({status:"error",message:`${req.body.commentData.userName} is commented` ,_id:post._id})
+         return res.json({status:"error",message:`${req.body.commentData.userName} is added a new comment` ,comment:req.body.commentData.comment,_id:post._id})
       }
   })
 
@@ -133,7 +133,7 @@ route.put('/liked-post',async(req,res)=>{
   console.log("comment deleted",res); 
 
     })
-     return res.json({status:"error",message:`${req.body.Deletecomment.comment}  comment deleted` ,_id:req.body.Deletecomment.commentedUserId})
+     return res.json({status:"error",message:`${req.body.Deletecomment.comment}  comment deleted` ,_id:req.body.Deletecomment.commentedUserId,commentIndex:req.body.Deletecomment.commentedIndex})
    }  
    }catch(error){
       console.log(error)
