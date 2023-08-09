@@ -158,7 +158,7 @@ const PostComments = (props) => {
                 <div class="commentText">
               
  
-              {deleteStatus &&deleteStatus===index ?(<p  >comment deleted</p>): <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>}  
+              {deleteStatus && deleteStatus===index ?(<p  >comment deleted</p>): <p key={index} style={{fontWeight:'bold',color:"#19261d"}}>{commentobj.commentedUserName}<span style={{fontWeight:'lighter'}}>:{commentobj.comment} </span></p>}  
         
     
               </div>
