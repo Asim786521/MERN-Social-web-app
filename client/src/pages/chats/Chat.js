@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../Navbar/Navbar'
 import './Chat.css' 
+import {io} from 'socket.io-client'
+
+ 
+
+
 const Chat = () => {
+
+  const [socket,setSocket]=useState(null)
+
+useEffect(()=>{
+  setSocket(io('ws://localhost:8900'))
+},[])
   return (
     <div>
       <Navbar/>
