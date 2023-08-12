@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from '../Navbar/Navbar'
 import './Chat.css' 
 import {io} from 'socket.io-client'
@@ -8,11 +8,32 @@ import {io} from 'socket.io-client'
 
 const Chat = () => {
 
-  const [socket,setSocket]=useState(null)
+  const socket = useRef();
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
 
 useEffect(()=>{
-  setSocket(io('ws://localhost:8900'))
+  socket.current = io("ws://localhost:8900");
+  socket.current.on("getMessage", (data) => {
+    setArrivalMessage({
+      sender: data.senderId,
+      text: data.text,
+      createdAt: Date.now(),
+    });
+  });
 },[])
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  if ( message) {
+    socket.current.emit('sendMessage',message );
+    setName('');
+    setMessage('');
+  }
+};
+console.log(socket);
   return (
     <div>
       <Navbar/>
@@ -65,9 +86,9 @@ useEffect(()=>{
     </div>
   </main>
 
-  <form class="msger-inputarea">
-    <input type="text" class="msger-input" placeholder="Enter your message..."/>
-    <button type="submit" class="msger-send-btn">Send</button>
+  <form class="msger-inputarea" onSubmit={handleSubmit}>
+    <input type="text" value={message} class="msger-input" onChange={(event) => setMessage(event.target.value)}   placeholder="Enter your message..."/>
+    <button type="submit"   class="msger-send-btn">Send</button>
   </form>
 </section>
     </div>
