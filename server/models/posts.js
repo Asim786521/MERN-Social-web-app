@@ -4,7 +4,7 @@ const mongoose=require('mongoose')
 
 
   
-const postSchema=mongoose.Schema( {
+const postSchema=new mongoose.Schema( {
   createdAt:String,
   userId:Object,
   userName:String,
@@ -14,7 +14,7 @@ const postSchema=mongoose.Schema( {
  
 })
 
-const savedpostSchema=mongoose.Schema({ 
+const savedpostSchema= new mongoose.Schema({ 
 
   postId:ObjectId,
   title:String,
@@ -22,7 +22,7 @@ const savedpostSchema=mongoose.Schema({
  
 })
 
-const likedpostSchema=mongoose.Schema({
+const likedpostSchema= new mongoose.Schema({
   likedpostId:ObjectId,
   title:String,
   Image:String,

@@ -1,7 +1,7 @@
 import React from 'react'
 import "./messenger.css"
 import Conversation from '../../components/conversations/Conversation'
-function MEssenger() {
+function Messenger() {
   return (
     <div className="messenger">
     <div className="chatMenu">
@@ -54,4 +54,4 @@ function MEssenger() {
   )
 }
 
-export default MEssenger
+export default Messenger
