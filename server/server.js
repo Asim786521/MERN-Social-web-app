@@ -33,7 +33,7 @@ app.use(app.route);
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
   });
-  mongodb://127.0.0.1:27017/react-jwt
+  
 
 mongoose.connect('mongodb://127.0.0.1:27017/Mern-SocialApp')
   .then(() => console.log('Connected!'));
