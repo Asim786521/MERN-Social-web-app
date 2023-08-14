@@ -11,6 +11,37 @@ const Navbar = ( ) => {
     const[toggle,setToggle]=useState(false)
     const[profileImage,setProfileImage]=useState()
     const userId=localStorage.getItem("user_Id")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    useEffect (()=>{
+        (async () => {
+            try{
+
+          
+        const res=  await  axios.get(`http://localhost:4000/auth/getUser-Profile/${userId}`)
+            setUserName(res.data.name) 
+        setProfileImage(res.data.profileImage)  
+      
+        }  catch(error){
+            console.log(error);
+        }
+    })();
+      
+    },[])
     const ToggleSidebar = () => {
         isOpen === true ? setIsopen(false) : setIsopen(true);
     }
@@ -59,15 +90,7 @@ const Navbar = ( ) => {
     }
 
 
-    useEffect (()=>{
-        (async () => {
-          await  axios.get(`http://localhost:4000/auth/getUser-Profile/${userId}`).then((res)=>{
-            setUserName(res.data.name) 
-        setProfileImage(res.data.profileImage)
-      }) 
-    })();
-      
-    })
+  
         return (
             <>
 

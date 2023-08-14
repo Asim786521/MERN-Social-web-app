@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route,Navigate} from "react-router-dom";
  import SavedPosts from './pages/savedPosts/SavedPosts.jsx';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
+import Messenger from './pages/chatMessenger/Messenger';
  
 function App() {
   const user = localStorage.getItem("token");
@@ -31,6 +32,7 @@ function App() {
       <Route path="/posts" exact element={user?(<Post/>):<Navigate replace to="/login"/>} />
       <Route path="/saved" exact element={user?(<SavedPosts/>):<Navigate replace to="/login"/>} />
       <Route path="/chats" exact element={user?(<Chat/>):<Navigate replace to="/login"/>} />
+      <Route path="/messages" exact element={user?(<Messenger/>):<Navigate replace to="/login"/>} />
       </Routes>
 </BrowserRouter>
     </div>

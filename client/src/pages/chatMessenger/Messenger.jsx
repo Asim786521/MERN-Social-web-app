@@ -6,9 +6,11 @@ function Messenger() {
     <div className="messenger">
     <div className="chatMenu">
       <div className="chatMenuWrapper">
-        <input placeholder="Search for friends" className="chatMenuInput" />
+        
       
           <div   >
+            <Conversation />
+            <Conversation />
             <Conversation />
           </div>
       
@@ -38,9 +40,9 @@ function Messenger() {
             </div>
           </>
  
-          <span className="noConversationText">
+          {/* <span className="noConversationText">
             Open a conversation to start a chat.
-          </span>
+          </span> */}
    
       </div>
     </div>
