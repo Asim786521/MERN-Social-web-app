@@ -8,6 +8,8 @@ const mongoose=require('mongoose')
 const postRouter=require('./routes/post')
 const authRoutes=require('./routes/auth')
 const userRoutes=require('./routes/user')
+const chatRoutes=require('./routes/conversation')
+const messageRoutes=require('./routes/messages')
 const app=express();
  
 const bodyparser=require('body-parser')
@@ -22,6 +24,9 @@ app.use('/posts',postRouter);
 app.use("/user", userRoutes);
  
 app.use("/auth", authRoutes);
+app.use("/conversations", chatRoutes);
+app.use('/messages',messageRoutes)
+
 
 app.use(app.route);
  

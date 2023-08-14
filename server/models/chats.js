@@ -25,3 +25,6 @@ const MessageSchema = new mongoose.Schema(
 
   const conversation = mongoose.model('conversation', ConversationSchema);
 const chatMessages = mongoose.model('chatMessages', MessageSchema);
+module.exports={
+ conversation,chatMessages
+ }
