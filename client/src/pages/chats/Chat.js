@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Navbar from '../Navbar/Navbar'
 import './Chat.css' 
-import {io} from 'socket.io-client'
+
 
  
 
@@ -15,7 +15,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
 
 useEffect(()=>{
-  socket.current = io("ws://localhost:8900");
+ 
   socket.current.on("getMessage", (data) => {
     setArrivalMessage({
       sender: data.senderId,
