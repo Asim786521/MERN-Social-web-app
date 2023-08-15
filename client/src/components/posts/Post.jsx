@@ -13,25 +13,39 @@ const Post = () => {
     const navigate=useNavigate()
     const[postItems,SetPostItems]=useState([])
      const[saved,postSaved]=useState('')
+    //  const [like, setLike] = useState(post.likes.length);
+  const [isLiked, setIsLiked] = useState(false);
      const[liked,postliked]=useState()
+    
      const[likedStatusCheck,setLikedStatusCheck]=useState([])
      const [toggle, setToggle] = useState(true)
      const userId=localStorage.getItem("user_Id")
           
     useEffect(()=>{
-
-      axios.get('http://localhost:4000/posts/get-postData').then((response)=>{
- console.log(response.data);
- SetPostItems(response.data) }).catch((err)=>console.log(err));
-
-      axios.get('http://localhost:4000/posts/liked-post').then((response)=>{
-         console.log("liked post",response.data);
-         setLikedStatusCheck(response.data)
-    }).catch((err)=>console.log(err));
-      
-   },
+      const getPostdata = async () => {
+    const response= await axios.get('http://localhost:4000/posts/get-postData') 
   
-    [])
+ SetPostItems(response.data)  
+ 
+      
+   }
+   getPostdata()
+    },
+ [postItems])
+    useEffect(()=>{
+      const getlikedPost = async () => {
+   
+    try{
+       const response=await axios.get('http://localhost:4000/posts/liked-post') 
+    
+        setLikedStatusCheck(response.data)
+    }catch(error){
+      console.log(error)
+    }
+    
+  }
+  getlikedPost()
+    },[likedStatusCheck])
       
   const savedPost=async(data)=>{
  
@@ -53,24 +67,23 @@ const Post = () => {
     }
 
   };
-  const likedPost=async(data)=>{
-      
-    const likedPostdata={
-      userId:data._id,
-       title:data.name,
-       Image:data.image,
-       liked:true
-  }
-   try{
-    const response= await axios.put('http://localhost:4000/posts/liked-post',{likedPostdata})
-    if(response.data._id){ 
-    postliked(response.data._id)
-    }else{
-      alert(response.data.response)
-   } } catch (err) {
-      console.log(err);
-}
-}
+  
+const likeHandler = async(post_id) => {
+ 
+//   const likedPostdata={
+//     userId:data._id,
+//      title:data.name,
+//      Image:data.image,
+//      liked:true
+// }
+
+  try {
+   const res= await axios.put(`http://localhost:4000/posts/like/${post_id}`,{userId});
+  alert(res.data)
+  } catch (err) {}
+  // setLike(isLiked ? like - 1 : like + 1);
+  setIsLiked(!isLiked);
+};
   return (
    <div>
     <Navbar/>  
@@ -102,27 +115,33 @@ const Post = () => {
           <p style={{fontSize:'55px'}}>{obj.name}</p>
         </div>   
         <div className="postBottom">
+        <div className="postBottomLeft">
+            {/* <i
+              className="likeIcon"
+              src={`${PF}like.png`}
+              onClick={likeHandler}
+              alt="" */}
+            {/* /> */}
+          
+        {obj.likes.find(id=>id===userId)?(<Heart isClick={toggle} style={{color:"#2e7bff"}} onClick={()=>{likeHandler(obj._id);setToggle(!toggle)}}></Heart>):<Heart isClick={!toggle} onClick={()=>{likeHandler(obj._id);setToggle(toggle)}}></Heart>}
+          </div>
            <div className="postBottomRight">
-          {  liked===obj._id?(<span className="postCommentText"> </span>):""} 
+   
         </div>
       </div>
       </div>
   
-{ liked===obj._id?( <p style={{color:'#f52439'}}>already liked</p>):  <i className="like-icon"  onClick={() => likedPost({...obj})}     ></i>  }
+{/* { liked===obj._id?( <p style={{color:'#f52439'}}>already liked</p>):  <i className="like-icon"  onClick={() => likedPost({...obj})}     ></i>  } */}
 
 <div className="postSave">
 
-   {likedStatusCheck.filter(status => status.likedStatus===true && status.likedpostId===obj._id).map((likeobj)=>(
+   {/* {likedStatusCheck.filter(status => status.likedStatus===true && status.likedpostId===obj._id).map((likeobj)=>(
 <div key={index}>
     <p style={{color: "#f52439",}}>you liked!!!<Heart isClick={toggle} onClick={() => setToggle(!toggle)} /></p>
   
-    </div>))}
+    </div>))} */}
 
-   {likedStatusCheck.map((likeobj,index)=>(
-        <div key={likeobj.likedpostId}>  
-     { likeobj.likedpostId && likeobj.likedStatus===null && likeobj.likedpostId!==obj._id? (<p style={{color: "#f52439",}}>you bot liked!!!<Heart isClick={toggle} onClick={() => setToggle(!toggle)} /></p>):"" }
-    </div> ))}      
- 
+  
   <div style={{marginLeft:"9rem"}}> 
   {saved && saved===obj._id? (<p className='text-primary'>already saved</p>):<button   type="button" className="btn btn-outline-info  ml-auto" style={{fontSize:"23px"}} onClick={() => savedPost({...obj})}>
   <span className="float-right"> <i class="fas fa-save"></i></span></button>}

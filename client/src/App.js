@@ -31,7 +31,7 @@ function App() {
       <Navigate replace to={"/"} */}
       <Route path="/posts" exact element={user?(<Post/>):<Navigate replace to="/login"/>} />
       <Route path="/saved" exact element={user?(<SavedPosts/>):<Navigate replace to="/login"/>} />
-      <Route path="/chats" exact element={user?(<Chat/>):<Navigate replace to="/login"/>} />
+      <Route path="/chats" exact element={user?(<Messenger/>):<Navigate replace to="/login"/>} />
       <Route path="/messages" exact element={user?(<Messenger/>):<Navigate replace to="/login"/>} />
       </Routes>
 </BrowserRouter>
