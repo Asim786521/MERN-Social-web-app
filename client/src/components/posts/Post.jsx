@@ -79,7 +79,7 @@ const likeHandler = async(post_id) => {
 
   try {
    const res= await axios.put(`http://localhost:4000/posts/like/${post_id}`,{userId});
-  alert(res.data)
+ 
   } catch (err) {}
   // setLike(isLiked ? like - 1 : like + 1);
   setIsLiked(!isLiked);

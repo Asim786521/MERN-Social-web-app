@@ -106,7 +106,7 @@ function Messenger() {
       
       {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
-                <Conversation conversation={c} />
+          <Conversation conversation={c}  />  
               </div>
             ))}
             

@@ -28,7 +28,7 @@ const Navbar = ( ) => {
 
 
     useEffect (()=>{
-        (async () => {
+       const getUser=async () => {
             try{
 
           
@@ -39,9 +39,11 @@ const Navbar = ( ) => {
         }  catch(error){
             console.log(error);
         }
-    })();
-      
-    },[])
+    }
+    getUser()
+
+    },[userId, profileImage])
+
     const ToggleSidebar = () => {
         isOpen === true ? setIsopen(false) : setIsopen(true);
     }
@@ -58,7 +60,7 @@ const Navbar = ( ) => {
         setFiles(e.target.files[0]) 
     }
 
-    const handleSubmit=(e)=>{
+    const handleSubmit=async(e)=>{
         e.preventDefault();
    
    
@@ -71,19 +73,11 @@ const Navbar = ( ) => {
         try{
        const URL='http://localhost:4000/user/add-profileImage'
   
-       axios.post(URL,fd,{headers: {
-        "Content-type": "multipart/form-date",
-    } }
-       
-         ).then((res)=>{
-            console.log("proImage",res.data.profileImage);
- 
-         }
+    const res=  await axios.post(URL,fd,{headers: {"Content-type": "multipart/form-date", } }   ) 
            
-         )
-         
+         console.log(res)
+         setProfileImage(res.data.profileImage)
         
-          navigate('/')
         }catch(err){
   console.log(err);
         }

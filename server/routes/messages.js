@@ -21,7 +21,7 @@ route.get("/:conversationId", async (req, res) => {
     const messages = await Message.chatMessages.find({
       conversationId: req.params.conversationId,
     });
-    console.log("message check",messages);
+   ;
     res.status(200).json(messages);
   } catch (err) {
     res.status(500).json(err);

@@ -3,12 +3,13 @@ import './conversation.css'
 import axios from 'axios';
 function Conversation({conversation}) {
 
-
+ 
   const [user, setUser] = useState('');
   const [profile, setProfile] = useState('');
+ 
 const userId=localStorage.getItem("user_Id")
  
-
+  
 useEffect(() => {
    const friendId = conversation.members.find((m) => m !==userId);
 
@@ -24,6 +25,9 @@ useEffect(() => {
   };
   getUser();
 }, [userId,conversation]);
+
+
+
   return (
 
     
@@ -34,6 +38,7 @@ useEffect(() => {
       alt="#"
     />
     <span className="conversationName">{user}</span>
+   {/* {currentChat&&(<p>yes.....</p>)}  */}
   </div>
  
   )

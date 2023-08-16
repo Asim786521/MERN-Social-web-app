@@ -114,13 +114,13 @@ route.put('/liked-post',async(req,res)=>{
    })
 
    route.put("/like/:id", async (req, res) => {
-      console.log("liked by user id")
+ 
       try {
         const post = await postModel.postData.findById(req.params.id);
         if (!post.likes.includes(req.body.userId)) {
           await post.updateOne({ $push: { likes: req.body.userId } });
           res.status(200).json("The post has been liked");
-          console.log("post",post)
+  
         } else {
           await post.updateOne({ $pull: { likes: req.body.userId } });
           res.status(200).json("The post has been disliked");
