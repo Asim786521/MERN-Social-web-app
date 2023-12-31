@@ -1,0 +1,16 @@
+.body{
+    background-color: black;
+}
+
+
+.card-body{
+  width:80%;
+  margin:0.5rem;
+  margin-left:7.5rem;
+  margin-top:2rem;
+  border: 1px solid #bbedeb; /* 1px solid black border */
+  border-radius: 10px; /* 10px border-radius for rounded corners */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Box shadow with x-offset, y-offset, blur radius, and color */
+
+  
+}

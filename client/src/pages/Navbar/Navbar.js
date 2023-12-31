@@ -16,10 +16,9 @@ const Navbar = ( ) => {
 
 
 
+    const [isClicked, setIsClicked] = useState(false);
 
-
-
-
+ 
 
 
 
@@ -113,7 +112,12 @@ const Navbar = ( ) => {
                                <h4 className='profile-name' >{userName}</h4>
                                     <p>
                                 <Link to='/liked' className="liked" a><i class="fa fa-thumbs-up" aria-hidden="true" /></Link></p>
-                                   <p> <Link to='/saved' class="saved">Saved</Link></p>
+                                   <p> <Link to='/saved' class="saved">   <img
+            src={isClicked ? "/assets/bookmark_6928839.png" : "/assets/save-instagram_5662990.png"}
+            alt="Click me to navigate"
+            onClick={()=>setIsClicked(!isClicked)}
+            style={{ width: 20, height: 20 }}
+          /></Link></p>
                                     <div className="btn btn-primary" onClick={ToggleSidebar} >
                                         <i className="fa fa-bars"></i>
                                     </div>
