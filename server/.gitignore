@@ -1,2 +1,1 @@
-git rm -r --cached node_modules
-git commit -m "Remove node_modules from version control"
+node_modules/
