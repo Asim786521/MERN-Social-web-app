@@ -28,7 +28,7 @@ const Post = () => {
       SetPostItems(response.data);
     };
     getPostdata();
-  }, [postItems]);
+  }, []);
   useEffect(() => {
     const getlikedPost = async () => {
       try {
@@ -42,7 +42,7 @@ const Post = () => {
       }
     };
     getlikedPost();
-  }, [likedStatusCheck]);
+  }, []);
 
   const savedPost = async (data) => {
     const savedPostdata = {
