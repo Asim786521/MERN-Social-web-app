@@ -1,13 +1,16 @@
-const express = require("express");
-const ArtistServiceHanlder = require("../services/ArtistServiceHanlder");
 
-const route = express.Router();
 
-route.get("/", async (req, res) => {
+const route = require("express").Router();
+ const ArtistServiceHandler = require("../services/ArtistServiceHandler");
+
+route.get("/all", async (req, res) => {
   try {
-    const lists = await ArtistServiceHanlder.getAllLists();
+    const lists = await ArtistServiceHandler.getAllLists();
     res.json(lists);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
+
+
+module.exports=route;

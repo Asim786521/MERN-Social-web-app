@@ -2,15 +2,18 @@
 const mongoose = require('mongoose');
 
 const listSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
   },
-  items: [
-    {
-      type: String,
-    },
-  ],
+  imageUrl: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('List', listSchema);
