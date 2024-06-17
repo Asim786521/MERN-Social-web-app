@@ -249,7 +249,7 @@ function UserRegister() {
                   color={titleColor}
                   as='span'
                   ms='5px'
-                  href='#'
+                  href='/login'
                   fontWeight='bold'>
                   Sign In
                 </Link>

@@ -236,7 +236,7 @@ const UserLogin = () => {
                   color={titleColor}
                   as="span"
                   ms="5px"
-                  href="#"
+                  href="/register"
                   fontWeight="bold"
                 >
                   Sign Up
