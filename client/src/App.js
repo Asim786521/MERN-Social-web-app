@@ -11,7 +11,10 @@ import Messenger from "./pages/ChatMessenger/Messenger";
 import { jwtDecode } from "jwt-decode";
 import PrivateRoute from "./components/privateRoute/privateRoute.js";
 import Artist from "./pages/Artists/Artist.jsx";
-
+import UserRegister from "./pages/UserRegister/UserRegister.jsx";
+import { ChakraProvider } from "@chakra-ui/react";
+import theme from "./theme/theme.js";
+import UserLogin from "./pages/UserLogin/UserLogin.jsx";
 function App() {
   const [user, setUser] = useState(localStorage?.getItem("token") || "");
 
@@ -30,12 +33,13 @@ function App() {
   }, [user]);
   return (
     <div className="App">
+      <ChakraProvider theme={theme} resetCss={false} position="relative">
       <BrowserRouter>
         <Routes>
           {user && <Route path="/" exact element={<Navbar />} />}
           <Route path="/" element={<Navigate replace to="/login" />} />
-          <Route path="/login" exact element={<Login />} />
-          <Route path="/register" exact element={<Register />} />
+          <Route path="/login" exact element={<UserLogin />} />
+          <Route path="/register" exact element={<UserRegister />} />
 
           <Route
             path="/posts"
@@ -62,8 +66,10 @@ function App() {
             exact
             element={<PrivateRoute user={user} element={<Artist />} />}
           />
+   
         </Routes>
       </BrowserRouter>
+      </ChakraProvider>
     </div>
   );
 }
