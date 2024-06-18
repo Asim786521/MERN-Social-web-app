@@ -17,6 +17,8 @@ import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import { Link as RouterLink } from "react-router-dom";
+
 function UserRegister() {
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
@@ -247,9 +249,9 @@ function UserRegister() {
                 Already have an account?
                 <Link
                   color={titleColor}
-                  as='span'
+                  as={RouterLink}
                   ms='5px'
-                  href='/login'
+                  to='/login'
                   fontWeight='bold'>
                   Sign In
                 </Link>

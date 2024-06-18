@@ -2,6 +2,8 @@ import React,{useState} from 'react'
 import './Register.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+import   {Link}  from 'react-router-dom'
 const Register = () => {
 	const [data, setData] = useState({
 	 username: "",
@@ -40,7 +42,7 @@ const Register = () => {
     <div className="card">
       <div className="card_title">
         <h1>Create Account</h1>
-        <span>Already have an account? <a href="login">Sign In</a></span>
+        <span>Already have an account? <Link to="/login">Sign In</Link></span>
       </div>
       <div className="form">
       <form action="/register" method="post" onSubmit={handleSubmit}>

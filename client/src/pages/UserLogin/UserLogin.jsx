@@ -13,6 +13,7 @@ import {
   HStack,
   Icon,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
 import axios from "axios";
 // import signInImage from "../../../public/assets/img/signInImage.png"; // Make sure to import your image correctly
@@ -35,14 +36,14 @@ const UserLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:4000/auth/login"; // Adjust URL according to your backend API
+      const url = "http://localhost:4000/auth"; // Adjust URL according to your backend API
       const response = await axios.post(url, data);
-      const { user, token } = response.data;
+      const { data: res } = await axios.post(url, data);
+      console.log(res.message);
 
-      // Store user details and token in localStorage
-      localStorage.setItem("user_Id", user._id);
-      localStorage.setItem("user_Name", user.name);
-      localStorage.setItem("token", token);
+      localStorage.setItem("user_Id", res._id);
+      localStorage.setItem("user_Name", res.name);
+      localStorage.setItem("token", res.data);
 
       // Redirect or perform any action after successful login
       window.location = "/"; // Redirect to home page after successful login
@@ -234,9 +235,9 @@ const UserLogin = () => {
                 Don't have an account yet?
                 <Link
                   color={titleColor}
-                  as="span"
+                  as={RouterLink}
                   ms="5px"
-                  href="/register"
+                  to="/register"
                   fontWeight="bold"
                 >
                   Sign Up
@@ -251,9 +252,15 @@ const UserLogin = () => {
           w="100%"
           left="0px"
           position="absolute"
-        //   bgImage={`url(${signInImage})`}
+          //   bgImage={`url(${signInImage})`}
         >
-          <Box w="100%" h="100%" bgSize="cover" bg="blue.500" opacity="0.8"></Box>
+          <Box
+            w="100%"
+            h="100%"
+            bgSize="cover"
+            bg="blue.500"
+            opacity="0.8"
+          ></Box>
         </Box>
       </Flex>
     </Flex>
