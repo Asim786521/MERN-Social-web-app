@@ -152,8 +152,7 @@ route.put("/post-comment", async (req, res) => {
         },
       },
     });
-    return res.json({
-      status: "error",
+    return res.status(200).json({
       message: `${req.body.commentData.userName} is added a new comment`,
       comment: req.body.commentData.comment,
       _id: post._id,
@@ -189,6 +188,24 @@ route.put("/delete-comment", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+  }
+});
+
+route.get("/post-search", async (req, res) => {
+  const postName = req.query.postName;
+
+  try {
+    const findPost = await postModel.postData.findOne({
+      name: new RegExp(postName, "i"),
+    });
+    
+    if (findPost) {
+      return res.status(200).json({ post:findPost });
+    } else {
+      return res.status(404).send("message not found");
+    }
+  } catch (errr) {
+    return res.status(500).json({ errr: errr });
   }
 });
 

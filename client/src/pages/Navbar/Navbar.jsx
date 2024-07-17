@@ -109,8 +109,11 @@ const Navbar = () => {
             </div>
 
             <div className="form-inline ml-auto d-flex justify-content-between">
-          <div className="mt-5">  <h4 className="profile-name">{userName}</h4></div>
-            
+              <div className="mt-5">
+                {" "}
+                <h4 className="profile-name">{userName}</h4>
+              </div>
+
               <p className="ml-auto">
                 <Link to="/liked" className="liked" a>
                   <i class="fa fa-thumbs-up" aria-hidden="true" />
@@ -149,7 +152,7 @@ const Navbar = () => {
               </li>
               <li>
                 <a className="sd-link" href="/artists">
-                 Artists
+                  Artists
                 </a>
               </li>
             </ul>

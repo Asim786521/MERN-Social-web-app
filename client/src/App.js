@@ -5,8 +5,6 @@ import Post from "./components/posts/Post";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SavedPosts from "./pages/SavedPosts/SavedPosts.jsx";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
 import Messenger from "./pages/ChatMessenger/Messenger";
 import { jwtDecode } from "jwt-decode";
 import PrivateRoute from "./components/privateRoute/privateRoute.js";
@@ -38,7 +36,7 @@ function App() {
       <ChakraProvider theme={theme} resetCss={false} position="relative">
       <BrowserRouter>
           <Routes>
-            <Route path="/" element={user ? <Navbar /> : <Navigate to="/login" />} />
+            <Route path="/" element={user ? <Post /> : <Navigate to="/login" />} />
             <Route path="/login" element={<UserLogin setUser={setUser} />} />
             <Route path="/register" element={<UserRegister />} />
             <Route
