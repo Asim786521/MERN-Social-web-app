@@ -15,8 +15,8 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.static("public"));
 app.use(bodyparser.json());
-app.use(express.json()); // Add this line to handle JSON data
-app.use(express.urlencoded({ extended: true })); // Add this line to handle form data
+app.use(express.json());  
+app.use(express.urlencoded({ extended: true })); 
 
 app.use("/posts", postRouter);
 app.use("/user", userRoutes);
