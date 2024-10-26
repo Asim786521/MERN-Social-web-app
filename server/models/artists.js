@@ -23,6 +23,8 @@ var artistSchema = new mongoose.Schema({
   UserType: { type: String },
 });
 
+
+
 const list = mongoose.model("List", listSchema);
 
 const artistData = mongoose.model("artists", artistSchema);

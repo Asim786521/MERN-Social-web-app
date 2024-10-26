@@ -3,6 +3,7 @@ const { User } = require("../models/user");
 const multer = require("multer");
 
 const { ObjectId } = require("mongodb");
+const { getPosts } = require("../services/postServiceHandler.js");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/Images");
@@ -199,6 +200,18 @@ const PostSearch = async (req, res) => {
   }
 };
 
+
+const getPostById=async(req,res)=>{
+  let user=req.user;
+try{
+    const findPost= await getPosts(user)
+    return findPost;
+}catch(error){
+  res.status(400).send("post not found")
+}
+
+}
+
 module.exports = {
   gellAll,
   AddPost,
@@ -211,4 +224,5 @@ module.exports = {
   updateComment,
   deleteComment,
   PostSearch,
+  getPostById
 };

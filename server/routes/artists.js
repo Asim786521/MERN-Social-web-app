@@ -1,8 +1,9 @@
 const route = require("express").Router();
-const { getAllArtists } = require("../controller/ArtistController");
-const ArtistServiceHandler = require("../services/ArtistServiceHandler");
+const { getAllArtists,addArtist } = require("../controller/ArtistController");
+const auth = require("../middleware/auth");
 
-route.get("/all", getAllArtists);
-route.post("/add-artist", ArtistServiceHandler.addArtist);
+
+route.get("/get/all",auth, getAllArtists);
+route.post("/add",auth, addArtist);
 
 module.exports = route;

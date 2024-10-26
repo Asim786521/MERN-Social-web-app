@@ -11,7 +11,9 @@ const {
   updateComment,
   deleteComment,
   PostSearch,
+  getPostById,
 } = require("../controller/PostController.js");
+const auth = require("../middleware/auth.js");
 
 const route = express.Router();
 
@@ -26,5 +28,7 @@ route.put("/like/:id", findLikedPostwithId);
 route.put("/post-comment", updateComment);
 route.put("/delete-comment", deleteComment);
 route.get("/post-search", PostSearch);
+route.post("/product/view",auth,getPostById)
+
 
 module.exports = route;
