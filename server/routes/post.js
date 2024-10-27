@@ -1,34 +1,37 @@
 const express = require("express");
-const {
-  gellAll,
-  AddPost,
-  getPostData,
-  SavedPost,
-  getAllSavedpost,
-  LikedPost,
-  getAllLikedPost,
-  findLikedPostwithId,
-  updateComment,
-  deleteComment,
-  PostSearch,
-  getPostById,
-} = require("../controller/PostController.js");
-const auth = require("../middleware/auth.js");
+const { 
+  getAllPostsController,
+  addPostController,
+  savePostController,
+  likePostController,
+  addCommentController,
+  deleteCommentController,
+  searchPostController,
+  getAllSavedPostsController,
+  getAllLikedPostsController 
+} = require("../controller/PostController");
+const multer = require("multer");
 
 const route = express.Router();
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/Images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage });
 
-route.get("/", gellAll);
-route.post("/add-post", AddPost);
-route.get("/get-postData", getPostData);
-route.put("/saved-post", SavedPost);
-route.get("/posts-saved", getAllSavedpost);
-route.put("/liked-post", LikedPost);
-route.get("/liked-post", getAllLikedPost);
-route.put("/like/:id", findLikedPostwithId);
-route.put("/post-comment", updateComment);
-route.put("/delete-comment", deleteComment);
-route.get("/post-search", PostSearch);
-route.post("/product/view",auth,getPostById)
-
+// Routes
+route.get("/", getAllPostsController);  
+route.post("/add-post", upload.single("image"), addPostController);  
+route.post("/save-post", savePostController); 
+route.post("/like-post", likePostController); 
+route.post("/add-comment", addCommentController);  
+route.post("/delete-comment", deleteCommentController);  
+route.get("/search", searchPostController);  
+route.get("/saved", getAllSavedPostsController);  
+route.get("/liked", getAllLikedPostsController); 
 
 module.exports = route;
