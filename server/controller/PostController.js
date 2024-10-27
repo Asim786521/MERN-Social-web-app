@@ -15,6 +15,24 @@ const getAllPostsController = async (req, res) => {
 };
 
 
+const getPostByIdController=async(req,res)=>{
+
+  try{
+    const response= await postService.getPostById(req.params.id)
+    console.log(response);
+    
+    if(response.error){
+      res.status(400).json({error:response.error})
+    }else{
+      res.status(200).json(response)
+    }
+  
+  }catch(error){
+    res.status(500).json(error);
+  }
+
+}
+
 const addPostController = async (req, res) => {
   try {
     const response = await postService.uploadPost(req.body, req.file);
@@ -129,4 +147,5 @@ module.exports = {
   getAllPostsController,
   getAllSavedPostsController,
   getAllLikedPostsController,
+  getPostByIdController
 };

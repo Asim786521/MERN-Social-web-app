@@ -8,9 +8,11 @@ const {
   deleteCommentController,
   searchPostController,
   getAllSavedPostsController,
-  getAllLikedPostsController 
+  getAllLikedPostsController, 
+  getPostByIdController
 } = require("../controller/PostController");
 const multer = require("multer");
+ 
 
 const route = express.Router();
 const storage = multer.diskStorage({
@@ -33,5 +35,6 @@ route.post("/delete-comment", deleteCommentController);
 route.get("/search", searchPostController);  
 route.get("/saved", getAllSavedPostsController);  
 route.get("/liked", getAllLikedPostsController); 
+route.get("/get-post/:id",getPostByIdController)
 
 module.exports = route;

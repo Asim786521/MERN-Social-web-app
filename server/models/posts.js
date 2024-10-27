@@ -2,6 +2,19 @@ const { object, string, date, boolean } = require('joi');
 const { ObjectId } = require('mongodb');
 const mongoose=require('mongoose')
 
+// const postSchema=new mongoose.Schema( { ---------------->OLD SCHEMA
+//   createdAt:String,
+//   userId:Object,
+//   userName:String,
+//   name:String,
+//   image: String,
+//   comments:{type:Array,default:[], },
+//   likes: {
+//     type: Array,
+//     default: [],
+//   },
+ 
+// })
 
   
 const postSchema = new mongoose.Schema({

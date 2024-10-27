@@ -1,12 +1,14 @@
 const postModel = require("../models/posts.js");
 const { User } = require("../models/user");
 const { ObjectId } = require("mongodb");
+const { post } = require("../routes/post.js");
+const { default: mongoose } = require("mongoose");
  
 const postService = {
  
   getAllPosts: async () => {
     try {
-      const allPosts = await Post.find();
+      const allPosts = await postModel.postData.find();
       return { success: true, posts: allPosts };
     } catch (error) {
       console.error(error);
@@ -14,6 +16,26 @@ const postService = {
     }
   },
   
+
+  getPostById:async(id)=>{
+    try{
+
+      if(!mongoose.Types.ObjectId.isValid(id)){
+        return {error:"invalid id"}
+      }
+      const findPost=await postModel.postData.findById(id);
+ 
+      if(!findPost){
+  
+     
+      return {error:"no post found with id"}
+      }else{
+        return {status:200, post:findPost}
+      }
+    }catch(errr){
+      return { error: errr.message }
+    }
+  },
   
   uploadPost: async (postData, file) => {
     try {
