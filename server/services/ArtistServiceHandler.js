@@ -1,6 +1,7 @@
 // services/listService.js
 const { List, artistData } = require("../models/artists");
 
+
 module.exports = {
   getAllLists: async () => {
     try {
@@ -24,4 +25,8 @@ module.exports = {
       throw new Error(err.message);
     }
   },
+
+
+
+
 };
