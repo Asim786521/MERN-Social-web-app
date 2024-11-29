@@ -54,10 +54,11 @@ const postService = {
   },
 
   // Save post function
-  savePost: async (savePostData) => {
+  savePost: async (savePostData,userID) => {
     try {
       const savedPost = await postModel.savedPost.create({
         postId: new ObjectId(savePostData.userId),
+        userid:new ObjectId(userID),
         title: savePostData.title,
         image: savePostData.Image,
       });

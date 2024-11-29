@@ -1,0 +1,28 @@
+const cartService = require("../services/cartServiceHandler");
+
+const getAllcarts = async (req, res) => {
+  try {
+    const response = await cartService.getcarts();
+
+    return res.status(200).json(response);
+  } catch (err) {
+    return err;
+  }
+};
+
+const insertCart = async (req, res) => {
+  try {
+    const response = await cartService.insertCart(req.body, req.user.userId);
+    if (response.error) {
+      return res.status(400).json(response);
+    }
+    return res.status(200).json(response);
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = {
+  getAllcarts,
+  insertCart,
+};

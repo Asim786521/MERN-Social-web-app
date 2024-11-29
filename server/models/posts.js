@@ -20,6 +20,7 @@ const mongoose=require('mongoose')
 const postSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   content: { type: String, required: true },
+  category:{type:String, required:false},
   image: { type: String, default: '' },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   comments: [
@@ -33,18 +34,18 @@ const postSchema = new mongoose.Schema({
 });
 
  
+const savedpostSchema = new mongoose.Schema({
+  postId: { type: mongoose.Schema.Types.ObjectId, ref: 'posts', required: true },  
+  userID:{type:mongoose.Schema.Types.ObjectId,ref:"user",required:true},
+  title: { type: String, required: true }, 
+  image: { type: String, required: true }, 
+  createdAt: { type: Date, default: Date.now }  
+});
 
-const savedpostSchema= new mongoose.Schema({ 
-
-  postId:ObjectId,
-  title:String,
-  Image:String,
-  createdAt: { type: Date, default: Date.now }
- 
-})
 
 const likedpostSchema= new mongoose.Schema({
-  likedpostId:ObjectId,
+  likedpostId: { type: mongoose.Schema.Types.ObjectId, ref: 'posts', required: true },
+  userID:{type:mongoose.Schema.Types.ObjectId,ref:"user",required:true},
   title:String,
   Image:String,
   likedStatus:Boolean,

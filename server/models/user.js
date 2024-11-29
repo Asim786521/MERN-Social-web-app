@@ -10,12 +10,13 @@ const userSchema = new mongoose.Schema({
 	profilePicture: { type: String, default: '' },
 	bio: { type: String, default: '' },
 	createdAt: { type: Date, default: Date.now },
-	followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-	following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+	userType:{type:String,default:""},
+	// followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	// following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
   });
 
 userSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
+	const token = jwt.sign({userId: this._id,userType:this.userType }, process.env.JWTPRIVATEKEY, {
 		expiresIn: "15m",
 	});
 	return token;

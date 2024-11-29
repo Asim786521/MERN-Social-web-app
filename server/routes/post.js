@@ -12,6 +12,7 @@ const {
   getPostByIdController
 } = require("../controller/PostController");
 const multer = require("multer");
+const { userAuthentication } = require("../middleware/auth");
  
 
 const route = express.Router();
@@ -25,16 +26,17 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Routes
-route.get("/", getAllPostsController);  
-route.post("/add-post", upload.single("image"), addPostController);  
-route.post("/save-post", savePostController); 
-route.post("/like-post", likePostController); 
-route.post("/add-comment", addCommentController);  
-route.post("/delete-comment", deleteCommentController);  
-route.get("/search", searchPostController);  
-route.get("/saved", getAllSavedPostsController);  
-route.get("/liked", getAllLikedPostsController); 
-route.get("/get-post/:id",getPostByIdController)
+ 
+route.get("/", userAuthentication, getAllPostsController);  
+route.post("/add-post", userAuthentication, upload.single("image"), addPostController);  
+route.post("/save-post",userAuthentication, savePostController); 
+route.post("/like-post",userAuthentication, likePostController); 
+route.post("/add-comment",userAuthentication, addCommentController);  
+route.post("/delete-comment",userAuthentication, deleteCommentController);  
+route.get("/search", userAuthentication,searchPostController);  
+route.get("/saved",  userAuthentication,getAllSavedPostsController);  
+route.get("/liked", userAuthentication, getAllLikedPostsController); 
+route.get("/get-post/:id", userAuthentication,getPostByIdController)
+
 
 module.exports = route;

@@ -48,7 +48,9 @@ const addPostController = async (req, res) => {
 
 const savePostController = async (req, res) => {
   try {
-    const response = await postService.savePost(req.body);
+   
+    const userId=req.userId;
+    const response = await postService.savePost(req.body,userId);
     if (response.error) {
       return res.status(400).json(response);
     }
