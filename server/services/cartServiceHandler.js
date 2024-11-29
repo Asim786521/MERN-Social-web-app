@@ -11,7 +11,6 @@ const cartService = {
 
       findCart = await CartModel.findOne({ userId: customerId });
       let findCartItems=await cartItemModel.findOne({cartId:findCart._id}).populate({path:"postId"})
-      console.log(findCartItems)
       if (findCartItems !== null) {
         return { data: findCartItems };
       } else {
