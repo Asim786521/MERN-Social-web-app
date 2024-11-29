@@ -1,6 +1,8 @@
 const { find } = require("mongoose/lib/helpers/query/validOps");
 const { CartModel, cartItemModel } = require("../models/cart");
 const { response } = require("express");
+const path = require("path");
+const { log } = require("console");
 
 const cartService = {
   getcarts: async (customerId) => {
@@ -8,8 +10,10 @@ const cartService = {
       let findCart;
 
       findCart = await CartModel.findOne({ userId: customerId });
-      if (findCart !== null) {
-        return { data: findCart };
+      let findCartItems=await cartItemModel.findOne({cartId:findCart._id}).populate({path:"postId"})
+      console.log(findCartItems)
+      if (findCartItems !== null) {
+        return { data: findCartItems };
       } else {
         return { data: [] };
       }
