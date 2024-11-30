@@ -2,13 +2,25 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
+ 
+const crypto = require('crypto');
 
+
+function generateRandomString(length) {
+	return crypto.randomBytes(length).toString('hex').slice(0, length); // Generates secure random string
+  }
 const userSchema = new mongoose.Schema({
 	username: { type: String, required: true, unique: true },
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
 	profilePicture: { type: String, default: '' },
 	bio: { type: String, default: '' },
+	vendorKey: {
+		type: String,
+		default: function() {
+		  return `UI${generateRandomString(10)}`;   
+		},
+	  },
 	createdAt: { type: Date, default: Date.now },
 	userType:{type:String,default:""},
 	// followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
@@ -17,7 +29,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateAuthToken = function () {
 	const token = jwt.sign({userId: this._id,userType:this.userType }, process.env.JWTPRIVATEKEY, {
-		expiresIn: "15m",
+		expiresIn: "30m",
 	});
 	return token;
 };
