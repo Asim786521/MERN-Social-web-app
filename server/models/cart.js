@@ -10,9 +10,10 @@ const CartSchema=new mongoose.Schema({
 
 const cartItemsSchema=new mongoose.Schema({
     cartId:{type:mongoose.Types.ObjectId,ref:"cart"},
-    postId:{type:mongoose.Types.ObjectId,ref:"posts"},
-    quantity:{type:Number, default:1},
-    category:{type:String,default:''},
+    cart:{type:String,default:null},
+    // postId:{type:mongoose.Types.ObjectId,ref:"posts"},
+    // quantity:{type:Number, default:1},
+    // category:{type:String,default:''},
     createdAt:{type:Date,default:Date.now()}
 })
 
