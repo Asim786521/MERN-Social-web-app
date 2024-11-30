@@ -1,8 +1,8 @@
 const { find } = require("mongoose/lib/helpers/query/validOps");
 const { CartModel, cartItemModel } = require("../models/cart");
-const { response } = require("express");
 const path = require("path");
-const { log } = require("console");
+const crypto=require("crypto-js");
+const { User } = require("../models/user");
 
 const cartService = {
   getcarts: async (customerId) => {
@@ -34,21 +34,36 @@ const cartService = {
 
       const { postId, quantity, Category } = cartData;
 
-      let cartItemExist = await cartItemModel.find({
-        cartId: cartItem._id,
-        postId: postId,
-      });
+      // let cartItemExist = await cartItemModel.find({
+      //   cartId: cartItem._id,
+      //   postId: postId,
+      // });
 
-      if (cartItemExist.length > 0) {
-        return { error: "item already added" };
+      // if (cartItemExist.length > 0) {
+      //   return { error: "item already added" };
+      // }
+      const dataToEncrypt = {
+         postId,
+       quantity,
+         Category,
+      };
+  
+
+      let userFind=await User.findById(userID);
+
+      if (!userFind) {
+        return { error: "User not found" }; 
       }
+      const encryptedData=await crypto.AES.encrypt(JSON.stringify(dataToEncrypt),userFind.vendorKey).toString()
+
       const cartAdded = await cartItemModel.create({
         cartId: cartItem._id,
-        postId: postId,
-        quantity: quantity,
-        category: Category,
+        cart:encryptedData
       });
 
+   
+      console.log();
+      
       if (cartAdded) {
         return { cartStatus: "added" };
       } else {
