@@ -1,18 +1,42 @@
-const { find } = require("mongoose/lib/helpers/query/validOps");
 const { CartModel, cartItemModel } = require("../models/cart");
-const path = require("path");
-const crypto=require("crypto-js");
 const { User } = require("../models/user");
+const { decryptCart, encryptCart } = require("../middleware/cryptoUtils");
+const { postData } = require("../models/posts");
 
 const cartService = {
   getcarts: async (customerId) => {
     try {
-      let findCart;
+      let findCart = await CartModel.findOne({ userID: customerId });
+      if (!findCart) {
+        return { error: "Cart not found" };
+      }
+      let user = await User.findById(customerId);
+      let findCartItems = await cartItemModel.find({ cartId: findCart._id });
 
-      findCart = await CartModel.findOne({ userId: customerId });
-      let findCartItems=await cartItemModel.findOne({cartId:findCart._id}).populate({path:"postId"})
+      if (!user) {
+        return { error: "User not found" };
+      }
+
+      let decryptList = [];
+      for (const item of findCartItems) {
+        try {
+          const decryptedItem = decryptCart(item.cart, user.vendorKey);
+
+          let postItems = await postData.findById(decryptedItem.postId);
+
+          if (postItems) {
+            decryptedItem.post = postItems;
+          } else {
+            decryptedItem.post = null;
+          }
+          decryptList.push(decryptedItem);
+        } catch (err) {
+          return err;
+        }
+      }
+
       if (findCartItems !== null) {
-        return { data: findCartItems };
+        return { data: decryptList };
       } else {
         return { data: [] };
       }
@@ -43,27 +67,22 @@ const cartService = {
       //   return { error: "item already added" };
       // }
       const dataToEncrypt = {
-         postId,
-       quantity,
-         Category,
+        postId,
+        quantity,
+        Category,
       };
-  
 
-      let userFind=await User.findById(userID);
+      let userFind = await User.findById(userID);
 
       if (!userFind) {
-        return { error: "User not found" }; 
+        return { error: "User not found" };
       }
-      const encryptedData=await crypto.AES.encrypt(JSON.stringify(dataToEncrypt),userFind.vendorKey).toString()
 
       const cartAdded = await cartItemModel.create({
         cartId: cartItem._id,
-        cart:encryptedData
+        cart: encryptCart(dataToEncrypt, userFind.vendorKey),
       });
 
-   
-      console.log();
-      
       if (cartAdded) {
         return { cartStatus: "added" };
       } else {
