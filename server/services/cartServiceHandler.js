@@ -92,6 +92,45 @@ const cartService = {
       return err;
     }
   },
+  updateCart: async (cartData, userID) => {
+    try {
+      let cartItem = await CartModel.findOne({ userID: userID });
+
+      if (!cartItem) {
+        return { error: "cart not found" };
+      }
+      const { postId, quantity } = cartData;
+      let cartItemExist = await cartItemModel.find({
+        cartId: cartItem._id,
+      });
+
+      let userFind = await User.findById(userID);
+      if (!userFind) {
+        return { error: "User not found" };
+      }
+      let updatedResponse = [];
+      for (const item of cartItemExist) {
+        try {
+          const decryptedItem = decryptCart(item.cart, userFind.vendorKey);
+          if (decryptedItem.postId === postId) {
+            decryptedItem.quantity = quantity;
+            const encryptedItem = encryptCart(
+              decryptedItem,
+              userFind.vendorKey
+            );
+            item.cart = encryptedItem;
+            await item.save();
+          }
+          updatedResponse.push(decryptedItem);
+        } catch (err) {
+          return err;
+        }
+      }
+      return { data: updatedResponse };
+    } catch (err) {
+      return err;
+    }
+  },
 };
 
 module.exports = cartService;
