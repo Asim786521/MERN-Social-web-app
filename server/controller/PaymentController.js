@@ -8,7 +8,7 @@ const createPayment=async(req,res)=>{
         res.status(200).json(paymentIntent)
 
     }catch(err){
-     res.status(500).json({ error: error.message });
+     res.status(500).json({ err: err.message });
     }
 }
 

@@ -1,8 +1,8 @@
 const stripe=require('../config/stripe')
 
-exports.createPayment=async(amount,cuurency)=>{
-    return await stripe.paymentIntent.create({
+exports.createPayment=async(amount,currency)=>{
+    return await stripe.paymentIntents.create({
         amount,
-        cuurency
+        currency
     })
 }
