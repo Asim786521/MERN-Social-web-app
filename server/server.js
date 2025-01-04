@@ -9,6 +9,7 @@ const chatRoutes = require("./routes/conversation");
 const messageRoutes = require("./routes/messages");
 const artistRoutes = require("./routes/artists");
 const cartRoutes=require("./routes/cart")
+const paymentRoutes=require("./routes/payment")
 const app = express();
 const bodyparser = require("body-parser");
 const PORT = process.env.PORT;
@@ -26,6 +27,7 @@ app.use("/conversations", chatRoutes);
 app.use("/messages", messageRoutes);
 app.use("/artists", artistRoutes);
 app.use("/carts",cartRoutes)
+app.use('/payment',paymentRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
